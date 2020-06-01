@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Tooltip?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="587.0" style="-fx-background-color: #F2F2F2;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deskchessWelcomeScreen.WelcomeScreenFXMLDocumentController">
+   <children>
+      <ImageView fx:id="viewImage" fitHeight="523.0" fitWidth="458.0" layoutX="80.0" layoutY="120.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../Desktop/School/Pat%202019/Logo.PNG" />
+         </image>
+      </ImageView>
+      <Label layoutX="61.0" layoutY="86.0" text="Welcome to DeskChess" underline="true">
+         <font>
+            <Font name="Constantia Bold Italic" size="43.0" />
+         </font>
+      </Label>
+      <Button fx:id="signUpbtn" layoutX="105.0" layoutY="539.0" mnemonicParsing="false" onAction="#openSignUpScreen" prefHeight="35.0" prefWidth="146.0" text="Sign up">
+         <tooltip>
+            <Tooltip text="I'm new" />
+         </tooltip>
+      </Button>
+      <Button fx:id="signInbtn" layoutX="328.0" layoutY="539.0" mnemonicParsing="false" onAction="#openSignInscreen" prefHeight="35.0" prefWidth="146.0" text="Sign in">
+         <tooltip>
+            <Tooltip text="I have an account" />
+         </tooltip></Button>
+   </children>
+</AnchorPane>

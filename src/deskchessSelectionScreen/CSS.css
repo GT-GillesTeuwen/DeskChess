@@ -1,0 +1,28 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08 May 2019, 5:47:45 PM
+    Author     : Client
+*/
+
+.table-cell.gameNameCol{
+    -fx-background-color: #d18b47;
+    -fx-border-color: black;
+
+}
+.table-row-cell:selected .gameNameCol{
+    -fx-background-color:#783f04; 
+}
+.table-view{
+    -fx-base: #ffce9e;
+    -fx-control-inner-background: #2A2A2A;
+    -fx-background-color:transparent;
+    -fx-table-cell-border-color: transparent;
+    -fx-padding: 1;
+    -fx-selection-bar-non-focused: #008287 ;   
+}
+
+

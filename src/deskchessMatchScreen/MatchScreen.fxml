@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ProgressBar?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="820.0" prefWidth="1280.0" stylesheets="@matchScreenCSS.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deskchessMatchScreen.MatchScreenController">
+   <children>
+      <ImageView fx:id="MatchBG" fitHeight="826.0" fitWidth="1296.0" layoutX="-2.0" layoutY="-3.0" pickOnBounds="true" />
+      <Button fx:id="resignbtn" layoutX="1089.0" layoutY="53.0" mnemonicParsing="false" onAction="#resign" onMouseEntered="#resignbtnDark" onMouseExited="#resignbtnLight" prefHeight="55.0" prefWidth="191.0" style="-fx-background-color: #00000000;" />
+      <Button fx:id="saveAndQuitbtn" layoutX="1089.0" layoutY="108.0" mnemonicParsing="false" onAction="#saveAndQuit" onMouseEntered="#saveAndQuitbtnDark" onMouseExited="#saveAndQuitbtnLight" prefHeight="55.0" prefWidth="191.0" style="-fx-background-color: #00000000;" />
+      <Label fx:id="whiteWinsLbl" layoutX="974.0" layoutY="327.0" prefHeight="126.0" prefWidth="181.0" text="White Wins" textFill="TRANSPARENT">
+         <font>
+            <Font name="System Bold" size="29.0" />
+         </font>
+      </Label>
+      <ProgressBar fx:id="winningSlider" layoutX="597.0" layoutY="378.0" prefHeight="18.0" prefWidth="200.0" progress="0.51" style="-fx-rotate: 90;" />
+      <Button fx:id="helpBtn" layoutX="1218.0" layoutY="-3.0" mnemonicParsing="false" onAction="#displayHelp" onMouseEntered="#helpBtnTog" onMouseExited="#helpBtnUntog" prefHeight="62.0" prefWidth="53.0" style="-fx-background-color: #00000000;" />
+      <Label layoutX="763.0" layoutY="314.0" text="Turn">
+         <font>
+            <Font size="18.0" />
+         </font>
+      </Label>
+      <Circle fx:id="turnIndicator" fill="WHITE" layoutX="781.0" layoutY="389.0" radius="39.0" stroke="TRANSPARENT" strokeType="INSIDE" style="-fx-fill: White;" />
+   </children>
+</AnchorPane>
