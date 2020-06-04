@@ -150,6 +150,7 @@ public class SelectionScreenFXMLController implements Initializable {
             match.setCurrentUser(currentUser);
             match.setLoaded(true);
             match.setGameName(board.getName());
+            brd.setScreen(match);
             root.getChildren().add(boardPane);
             Stage newStage = new Stage();
             newStage.setScene(new Scene(root));

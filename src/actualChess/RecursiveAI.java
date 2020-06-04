@@ -725,7 +725,7 @@ public class RecursiveAI extends Thread {
     @Override
     public void run() {
         makeMove();
-        System.out.println("kill");
+       
 
         return;
     }
