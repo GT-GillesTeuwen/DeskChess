@@ -543,44 +543,52 @@ public class ChessApp extends Application {
                 } else {
                     switch (board[j][i].getPiece().getColour()) {
                         case BLACK:
-                            if (board[j][i].getPiece().getType() == PieceType.PAWN) {
-                                brdPrint += ("p");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.ROOK) {
-                                brdPrint += ("r");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KNIGHT) {
-                                brdPrint += ("n");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.BISHOP) {
-                                brdPrint += ("b");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.QUEEN) {
-                                brdPrint += ("q");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KING) {
-                                brdPrint += ("k");
-                            }
+                            if (null != board[j][i].getPiece().getType()) switch (board[j][i].getPiece().getType()) {
+                        case PAWN:
+                            brdPrint += ("p");
+                            break;
+                        case ROOK:
+                            brdPrint += ("r");
+                            break;
+                        case KNIGHT:
+                            brdPrint += ("n");
+                            break;
+                        case BISHOP:
+                            brdPrint += ("b");
+                            break;
+                        case QUEEN:
+                            brdPrint += ("q");
+                            break;
+                        case KING:
+                            brdPrint += ("k");
+                            break;
+                        default:
+                            break;
+                    }
                             break;
                         case WHITE:
-                            if (board[j][i].getPiece().getType() == PieceType.PAWN) {
-                                brdPrint += ("P");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.ROOK) {
-                                brdPrint += ("R");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KNIGHT) {
-                                brdPrint += ("N");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.BISHOP) {
-                                brdPrint += ("B");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.QUEEN) {
-                                brdPrint += ("Q");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KING) {
-                                brdPrint += ("K");
-                            }
+                            if (null != board[j][i].getPiece().getType()) switch (board[j][i].getPiece().getType()) {
+                        case PAWN:
+                            brdPrint += ("P");
+                            break;
+                        case ROOK:
+                            brdPrint += ("R");
+                            break;
+                        case KNIGHT:
+                            brdPrint += ("N");
+                            break;
+                        case BISHOP:
+                            brdPrint += ("B");
+                            break;
+                        case QUEEN:
+                            brdPrint += ("Q");
+                            break;
+                        case KING:
+                            brdPrint += ("K");
+                            break;
+                        default:
+                            break;
+                    }
                             break;
                         default:
                             brdPrint += ("0");
@@ -1043,9 +1051,6 @@ public class ChessApp extends Application {
     public void setTurn(boolean turn) {
         this.turn = turn;
     }
-    public void removePiece(Piece piece){
-        System.out.println(pieceGroup.getChildren().indexOf(piece));
-        pieceGroup.getChildren().remove(11);
-    }
+   
 
 }
