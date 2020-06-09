@@ -206,5 +206,17 @@ public class Piece extends StackPane {
     public void abortMove() {
         relocate(oldX, oldY);
     }
+    
+    public void allowMove(){
+         setOnMouseDragged(e -> {
+                relocate(e.getSceneX() - TILE_SIZE * 0.42850, e.getSceneY() - TILE_SIZE * 0.42850);
+            });
+    }
+    
+    public void disallowMove(){
+        setOnMouseDragged(e -> {
+               
+            });
+    }
 
 }
