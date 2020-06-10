@@ -725,6 +725,7 @@ public class RecursiveAI extends Thread {
     @Override
     public void run() {
         makeMove();
+        chessApp.allowMoves();
     }
 
 }

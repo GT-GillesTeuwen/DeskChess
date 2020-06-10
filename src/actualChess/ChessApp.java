@@ -442,7 +442,6 @@ public class ChessApp extends Application {
         //Triggers the AI to move
         piece.setOnMouseReleased((MouseEvent e) -> {
             if (turn) {
-                allowMoves();
                 RecursiveAI bot = new RecursiveAI(this,screen);
                 int newX = toBoard(piece.getLayoutX());
                 int newY = toBoard(piece.getLayoutY());
@@ -1057,7 +1056,7 @@ public class ChessApp extends Application {
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
                 if (board[x][y].getPiece()!=null && board[x][y].getPiece().getColour()==PieceColour.WHITE) {
-                    board[x][y].getPiece().disallowMove();
+                    board[x][y].getPiece().allowMove();
                 }
             }
         }
