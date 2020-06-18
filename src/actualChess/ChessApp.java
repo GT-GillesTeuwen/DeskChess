@@ -460,35 +460,37 @@ public class ChessApp extends Application {
                         piece.move(newX, newY);
                         board[x0][y0].setPiece(null);
                         board[newX][newY].setPiece(piece);
-                        turn = false;
-                        bl.setTilesThreat(board);
-                        legalGroup.getChildren().clear();
-
+                       
                         if (newY == 0 && piece.getColour() == PieceColour.WHITE && piece.getType() == PieceType.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
                             pieceGroup.getChildren().remove(piece);
                             pieceGroup.getChildren().add(promtePiece);
                         }
+                         turn = false;
+                        bl.setTilesThreat(board);
+                        legalGroup.getChildren().clear();
+
                         break;
                     case KILL:
                         piece.setMoved(true);
                         Piece otherPiece = board[newX][newY].getPiece();
                         board[newX][newY].setPiece(null);
                         pieceGroup.getChildren().remove(otherPiece);
-                        bl.setTilesThreat(board);
+                       
                         piece.move(newX, newY);
                         board[x0][y0].setPiece(null);
-                        board[newX][newY].setPiece(piece);
-                        turn = false;
-                        legalGroup.getChildren().clear();
-
+                        board[newX][newY].setPiece(piece);                  
                         if (newY == 0 && piece.getColour() == colour.WHITE && piece.getType() == type.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
                             pieceGroup.getChildren().remove(piece);
                             pieceGroup.getChildren().add(promtePiece);
                         }
+                        
+                        turn = false;
+                        bl.setTilesThreat(board);
+                        legalGroup.getChildren().clear();
                         break;
                 }
                 try {
@@ -502,7 +504,6 @@ public class ChessApp extends Application {
                     bot.setBrdPrint(printBoard());
                     System.out.println(bot.getState());
                     bot.start();
-
                     try {
                         screen.checkCheckMate();
                     } catch (SQLException ex) {

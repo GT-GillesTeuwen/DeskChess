@@ -6,7 +6,10 @@
 package actualChess;
 
 import deskchessMatchScreen.MatchScreenController;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.application.Platform;
 
 /**
@@ -34,6 +37,7 @@ public class RecursiveAI extends Thread {
     private ChessApp chessApp;
     private MatchScreenController screen;
     private int threadsComplted;
+
     /**
      * Constructor with no parameters Creates a new RecursiveAI (used if the
      * board has not been created yet)
@@ -41,7 +45,7 @@ public class RecursiveAI extends Thread {
     public RecursiveAI(ChessApp chessApp, MatchScreenController screen) {
         this.chessApp = chessApp;
         this.screen = screen;
-        threadsComplted=0;
+        threadsComplted = 0;
     }
 
     /**
@@ -58,7 +62,7 @@ public class RecursiveAI extends Thread {
         this.stringVersionOfBoard = brdPrint.replace("\n", "");
         this.score = calculateScore(this.stringVersionOfBoard);
         this.chessApp = chessApp;
-        threadsComplted=0;
+        threadsComplted = 0;
     }
 
     /**
@@ -127,7 +131,7 @@ public class RecursiveAI extends Thread {
         if (turn) {
             int maxEval = -10000;
             for (int i = 0; i < moves.size(); i++) {
-               
+
                 int eval = minimax(moves.get(i).getRetBrd(), depth - 1, alpha, beta, true);
                 maxEval = max(maxEval, eval);
                 alpha = max(alpha, eval);
@@ -140,7 +144,7 @@ public class RecursiveAI extends Thread {
         } else {
             int minEval = 100000;
             for (int i = 0; i < moves.size(); i++) {
-                
+
                 int eval = minimax(moves.get(i).getRetBrd(), depth - 1, alpha, beta, false);
                 if (depth == mainDepth && eval < minEval) {
                     result = moves.get(i);
@@ -207,12 +211,12 @@ public class RecursiveAI extends Thread {
         double progress = 0.0;
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("MiniMax " + i + "/" + viableMoves.size());
-            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(),i,this,moveScores);
+            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, this, moveScores);
             temp.start();
-            System.out.println("ID "+temp.getId()+" State "+temp.getState());
+            System.out.println("ID " + temp.getId() + " State " + temp.getState());
         }
-        while(threadsComplted!=viableMoves.size()){
-            System.out.println("Thinking\t Threads Complete:"+threadsComplted+"/"+viableMoves.size());
+        while (threadsComplted != viableMoves.size()) {
+            System.out.println("Thinking\t Threads Complete:" + threadsComplted + "/" + viableMoves.size());
         }
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("Sweep " + i + "/" + viableMoves.size());
@@ -249,14 +253,13 @@ public class RecursiveAI extends Thread {
                     oppPiece.setMoved(true);
                     Piece otherPiece2 = chessApp.getBoard()[result.getNewX()][result.getNewy()].getPiece();
                     chessApp.pieceGroup.getChildren().lastIndexOf(otherPiece2);
-                            Platform.runLater(new Runnable() {
+                    Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
                             chessApp.pieceGroup.getChildren().remove(otherPiece2);
                         }
                     });
 
-                    bl.setTilesThreat(chessApp.board);
                     oppPiece.move(result.getNewX(), result.getNewy());
                     chessApp.getBoard()[result.getNewX()][result.getNewy()].setPiece(oppPiece);
                     chessApp.getBoard()[result.getOldX()][result.getOldy()].setPiece(null);
@@ -267,7 +270,7 @@ public class RecursiveAI extends Thread {
                         chessApp.pieceGroup.getChildren().remove(oppPiece);
                         chessApp.pieceGroup.getChildren().add(promtePiece);
                     }
-
+                    bl.setTilesThreat(chessApp.board);
                     break;
                 case NORMAL:
 
@@ -275,8 +278,6 @@ public class RecursiveAI extends Thread {
                     oppPiece.move(result.getNewX(), result.getNewy());
                     chessApp.getBoard()[result.getNewX()][result.getNewy()].setPiece(oppPiece);
                     chessApp.getBoard()[result.getOldX()][result.getOldy()].setPiece(null);
-                    bl.setTilesThreat(chessApp.board);
-                    //chessApp.legalGroup.getChildren().clear();
 
                     if (result.getNewy() == 7 && oppPiece.getColour() == PieceColour.BLACK && oppPiece.getType() == PieceType.PAWN) {
                         chessApp.getBoard()[result.getNewX()][result.getNewy()].setPiece(null);
@@ -284,7 +285,7 @@ public class RecursiveAI extends Thread {
                         chessApp.pieceGroup.getChildren().remove(oppPiece);
                         chessApp.pieceGroup.getChildren().add(promtePiece);
                     }
-
+                    bl.setTilesThreat(chessApp.board);
                     break;
                 case NONE:
                     chessApp.setCheckMate(1);
@@ -720,14 +721,19 @@ public class RecursiveAI extends Thread {
     public RecursiveAIResult getResult() {
         return result;
     }
-    
-    public void incrementCompletedThreads(){
+
+    public void incrementCompletedThreads() {
         threadsComplted++;
     }
 
     @Override
     public void run() {
         makeMove();
+        try {
+            screen.checkCheckMate();
+        } catch (SQLException ex) {
+            Logger.getLogger(RecursiveAI.class.getName()).log(Level.SEVERE, null, ex);
+        }
         chessApp.allowMoves();
     }
 
