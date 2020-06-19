@@ -730,7 +730,10 @@ public class RecursiveAI extends Thread {
     public void run() {
         makeMove();
         try {
-            screen.checkCheckMate();
+            if(screen!=null){
+                 screen.checkCheckMate();
+            }
+           
         } catch (SQLException ex) {
             Logger.getLogger(RecursiveAI.class.getName()).log(Level.SEVERE, null, ex);
         }

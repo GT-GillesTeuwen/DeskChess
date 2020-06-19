@@ -203,12 +203,16 @@ public class BoardLogic {
      *
      */
     public int pawnMove(Piece piece, int newx, int newy, int x0, int y0) {
+        
         if (board[newx][newy].hasPiece() == false) {
             if (Math.abs(newx - x0) == 0 && (newy - y0) == piece.getColour().moveDir) {
                 return 1;
             }
             if (Math.abs(newx - x0) == 0 && (newy - y0) == piece.getColour().moveDir * 2 && piece.getMoved() == false) {
-                return 1;
+                if ((piece.getColour() == PieceColour.WHITE && y0 == 6) || (piece.getColour() == PieceColour.BLACK && y0 == 1)) {
+                    return 1;
+                }
+
             }
 
         }

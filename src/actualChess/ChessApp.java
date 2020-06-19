@@ -72,7 +72,6 @@ public class ChessApp extends Application {
     /**
      * Recursive AI to make all the computer's moves
      */
-    
 
     private MatchScreenController screen;
 
@@ -434,7 +433,7 @@ public class ChessApp extends Application {
         piece.setOnMousePressed((MouseEvent e) -> {
             legalGroup.getChildren().clear();
             showLegal(board, piece);
-
+            System.out.println("X:"+piece.getOldX()+" Y:"+piece.getOldY());
         });
         //Executes this block of code when the mouse is released
         //Snaps piece to nearest tile
@@ -442,7 +441,7 @@ public class ChessApp extends Application {
         //Triggers the AI to move
         piece.setOnMouseReleased((MouseEvent e) -> {
             if (turn) {
-                RecursiveAI bot = new RecursiveAI(this,screen);
+                RecursiveAI bot = new RecursiveAI(this, screen);
                 int newX = toBoard(piece.getLayoutX());
                 int newY = toBoard(piece.getLayoutY());
                 MoveResult result = tryMove(piece, newX, newY);
@@ -460,14 +459,14 @@ public class ChessApp extends Application {
                         piece.move(newX, newY);
                         board[x0][y0].setPiece(null);
                         board[newX][newY].setPiece(piece);
-                       
+
                         if (newY == 0 && piece.getColour() == PieceColour.WHITE && piece.getType() == PieceType.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
                             pieceGroup.getChildren().remove(piece);
                             pieceGroup.getChildren().add(promtePiece);
                         }
-                         turn = false;
+                        turn = false;
                         bl.setTilesThreat(board);
                         legalGroup.getChildren().clear();
 
@@ -477,24 +476,27 @@ public class ChessApp extends Application {
                         Piece otherPiece = board[newX][newY].getPiece();
                         board[newX][newY].setPiece(null);
                         pieceGroup.getChildren().remove(otherPiece);
-                       
+
                         piece.move(newX, newY);
                         board[x0][y0].setPiece(null);
-                        board[newX][newY].setPiece(piece);                  
+                        board[newX][newY].setPiece(piece);
                         if (newY == 0 && piece.getColour() == colour.WHITE && piece.getType() == type.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
                             pieceGroup.getChildren().remove(piece);
                             pieceGroup.getChildren().add(promtePiece);
                         }
-                        
+
                         turn = false;
                         bl.setTilesThreat(board);
                         legalGroup.getChildren().clear();
                         break;
                 }
                 try {
-                    screen.checkCheckMate();
+                    if (screen != null) {
+                        screen.checkCheckMate();
+                    }
+
                 } catch (SQLException ex) {
                     Logger.getLogger(ChessApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -505,7 +507,10 @@ public class ChessApp extends Application {
                     System.out.println(bot.getState());
                     bot.start();
                     try {
-                        screen.checkCheckMate();
+                        if (screen != null) {
+                            screen.checkCheckMate();
+                        }
+
                     } catch (SQLException ex) {
                         Logger.getLogger(ChessApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -544,52 +549,56 @@ public class ChessApp extends Application {
                 } else {
                     switch (board[j][i].getPiece().getColour()) {
                         case BLACK:
-                            if (null != board[j][i].getPiece().getType()) switch (board[j][i].getPiece().getType()) {
-                        case PAWN:
-                            brdPrint += ("p");
-                            break;
-                        case ROOK:
-                            brdPrint += ("r");
-                            break;
-                        case KNIGHT:
-                            brdPrint += ("n");
-                            break;
-                        case BISHOP:
-                            brdPrint += ("b");
-                            break;
-                        case QUEEN:
-                            brdPrint += ("q");
-                            break;
-                        case KING:
-                            brdPrint += ("k");
-                            break;
-                        default:
-                            break;
-                    }
+                            if (null != board[j][i].getPiece().getType()) {
+                                switch (board[j][i].getPiece().getType()) {
+                                    case PAWN:
+                                        brdPrint += ("p");
+                                        break;
+                                    case ROOK:
+                                        brdPrint += ("r");
+                                        break;
+                                    case KNIGHT:
+                                        brdPrint += ("n");
+                                        break;
+                                    case BISHOP:
+                                        brdPrint += ("b");
+                                        break;
+                                    case QUEEN:
+                                        brdPrint += ("q");
+                                        break;
+                                    case KING:
+                                        brdPrint += ("k");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                             break;
                         case WHITE:
-                            if (null != board[j][i].getPiece().getType()) switch (board[j][i].getPiece().getType()) {
-                        case PAWN:
-                            brdPrint += ("P");
-                            break;
-                        case ROOK:
-                            brdPrint += ("R");
-                            break;
-                        case KNIGHT:
-                            brdPrint += ("N");
-                            break;
-                        case BISHOP:
-                            brdPrint += ("B");
-                            break;
-                        case QUEEN:
-                            brdPrint += ("Q");
-                            break;
-                        case KING:
-                            brdPrint += ("K");
-                            break;
-                        default:
-                            break;
-                    }
+                            if (null != board[j][i].getPiece().getType()) {
+                                switch (board[j][i].getPiece().getType()) {
+                                    case PAWN:
+                                        brdPrint += ("P");
+                                        break;
+                                    case ROOK:
+                                        brdPrint += ("R");
+                                        break;
+                                    case KNIGHT:
+                                        brdPrint += ("N");
+                                        break;
+                                    case BISHOP:
+                                        brdPrint += ("B");
+                                        break;
+                                    case QUEEN:
+                                        brdPrint += ("Q");
+                                        break;
+                                    case KING:
+                                        brdPrint += ("K");
+                                        break;
+                                    default:
+                                        break;
+                                }
+                            }
                             break;
                         default:
                             brdPrint += ("0");
@@ -616,7 +625,7 @@ public class ChessApp extends Application {
         for (int newy = 0; newy < 8; newy++) {
             for (int newx = 0; newx < 8; newx++) {
                 if (null != piece.getType()) {
-                    int kingMoves = 0;
+                    int moves = 0;
                     int x0 = toBoard(piece.getOldX());
                     int y0 = toBoard(piece.getOldY());
                     switch (piece.getType()) {
@@ -624,14 +633,18 @@ public class ChessApp extends Application {
                             if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.pawnMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.pawnMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.pawnMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.pawnMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             }
                             break;
@@ -639,14 +652,18 @@ public class ChessApp extends Application {
                             if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.rookMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.rookMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.rookMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.rookMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             }
                             break;
@@ -654,14 +671,18 @@ public class ChessApp extends Application {
                             if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.knightMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.knightMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.knightMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.knightMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             }
                             break;
@@ -669,14 +690,18 @@ public class ChessApp extends Application {
                             if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.bishopMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.bishopMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.bishopMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.bishopMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             }
                             break;
@@ -684,14 +709,18 @@ public class ChessApp extends Application {
                             if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.queenMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.queenMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.queenMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 } else if (bl.queenMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
+                                    moves++;
                                 }
                             }
                             break;
@@ -706,16 +735,16 @@ public class ChessApp extends Application {
                             } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.kingMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
-                                    kingMoves++;
+                                    moves++;
                                 } else if (bl.kingMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
-                                    kingMoves++;
+                                    moves++;
                                 }
                             }
-                            if (kingMoves == 0 && bl.checkBlackCheck() == true) {
+                            if (moves == 0 && bl.checkBlackCheck() == true) {
                                 System.out.println("White Wins");
                             }
-                            if (kingMoves == 0 && bl.checkWhiteCheck() == true) {
+                            if (moves == 0 && bl.checkWhiteCheck() == true) {
                                 System.out.println("Black Wins");
                             }
                             break;
@@ -1052,26 +1081,25 @@ public class ChessApp extends Application {
     public void setTurn(boolean turn) {
         this.turn = turn;
     }
-    
-    public void allowMoves(){
+
+    public void allowMoves() {
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
-                if (board[x][y].getPiece()!=null && board[x][y].getPiece().getColour()==PieceColour.WHITE) {
+                if (board[x][y].getPiece() != null && board[x][y].getPiece().getColour() == PieceColour.WHITE) {
                     board[x][y].getPiece().allowMove();
                 }
             }
         }
     }
-    
-    public void disallowMoves(){
+
+    public void disallowMoves() {
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
-                if (board[x][y].getPiece()!=null && board[x][y].getPiece().getColour()==PieceColour.WHITE) {
+                if (board[x][y].getPiece() != null && board[x][y].getPiece().getColour() == PieceColour.WHITE) {
                     board[x][y].getPiece().disallowMove();
                 }
             }
         }
     }
-   
 
 }
