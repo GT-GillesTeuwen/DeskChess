@@ -7,7 +7,10 @@ package actualChess;
 
 import deskchessMatchScreen.MatchScreenController;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javafx.application.Platform;
@@ -36,7 +39,6 @@ public class RecursiveAI extends Thread {
     private ArrayList<RecursiveAIResult> viableMoves;
     private ChessApp chessApp;
     private MatchScreenController screen;
-    private int threadsComplted;
 
     /**
      * Constructor with no parameters Creates a new RecursiveAI (used if the
@@ -45,7 +47,7 @@ public class RecursiveAI extends Thread {
     public RecursiveAI(ChessApp chessApp, MatchScreenController screen) {
         this.chessApp = chessApp;
         this.screen = screen;
-        threadsComplted = 0;
+
     }
 
     /**
@@ -62,7 +64,7 @@ public class RecursiveAI extends Thread {
         this.stringVersionOfBoard = brdPrint.replace("\n", "");
         this.score = calculateScore(this.stringVersionOfBoard);
         this.chessApp = chessApp;
-        threadsComplted = 0;
+
     }
 
     /**
@@ -199,6 +201,9 @@ public class RecursiveAI extends Thread {
      * piece to be moved and where it is being moved to
      */
     public void makeMove() {
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date date = new Date();
+        System.out.println(dateFormat.format(date));
         System.out.println("1");
         // Populates an array list with all the valid moves
         viableMoves = thinkMove(currentBoard, false);
@@ -209,14 +214,26 @@ public class RecursiveAI extends Thread {
 
         int minScore = 10000000;
         double progress = 0.0;
+        MinimaxThread[] allThreads = new MinimaxThread[viableMoves.size()];
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("MiniMax " + i + "/" + viableMoves.size());
-            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, this, moveScores);
-            temp.start();
-            System.out.println("ID " + temp.getId() + " State " + temp.getState());
+            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, this, moveScores,1);
+            allThreads[i] = temp;
+            allThreads[i].start();
+            System.out.println("ID " + allThreads[i].getId() + " State " + allThreads[i].getState());
         }
-        while (threadsComplted != viableMoves.size()) {
-            System.out.println("Thinking\t Threads Complete:" + threadsComplted + "/" + viableMoves.size());
+        boolean flag = false;
+        while (flag == false) {
+            //int count = 0;
+            flag = true;
+            for (int i = 0; i < allThreads.length; i++) {
+                //System.out.println("ID " + allThreads[i].getId() + " State " + allThreads[i].getState());
+                if (allThreads[i].getState() == Thread.State.RUNNABLE) {
+                    //count++;
+                    flag = false;
+                }
+            }
+            //System.out.println("Thread " + count + "/" + allThreads.length);
         }
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("Sweep " + i + "/" + viableMoves.size());
@@ -246,6 +263,9 @@ public class RecursiveAI extends Thread {
         System.out.println("here 1");
         Piece oppPiece = chessApp.getBoard()[result.getOldX()][result.getOldy()].getPiece();
         System.out.println("here 2");
+        dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        date = new Date();
+        System.out.println(dateFormat.format(date));
         if (null != result.getType()) {
             switch (result.getType()) {
                 case KILL:
@@ -722,18 +742,14 @@ public class RecursiveAI extends Thread {
         return result;
     }
 
-    public void incrementCompletedThreads() {
-        threadsComplted++;
-    }
-
     @Override
     public void run() {
         makeMove();
         try {
-            if(screen!=null){
-                 screen.checkCheckMate();
+            if (screen != null) {
+                screen.checkCheckMate();
             }
-           
+
         } catch (SQLException ex) {
             Logger.getLogger(RecursiveAI.class.getName()).log(Level.SEVERE, null, ex);
         }

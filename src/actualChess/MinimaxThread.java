@@ -23,20 +23,22 @@ public class MinimaxThread extends Thread {
     private RecursiveAI mainBrain;
    
     private int[] moveScores;
+    
+    private int depth;
 
-    public MinimaxThread(Tile[][] position, int i,RecursiveAI main,int[] moveScores) {
+    public MinimaxThread(Tile[][] position, int i,RecursiveAI main,int[] moveScores, int depth) {
         this.position = position;
         this.i =i;
         this.mainBrain=main;
         this.moveScores=moveScores;
+        this.depth=depth;
     }
 
     @Override
     public void run() {
-       // System.out.println("Started "+ this.getId());
-        moveScores[i]=minimax(position, 1, -99999, 99999, true);
-     //   System.out.println(this.getId()+" "+i+" "+moveScores[i]);
-        mainBrain.incrementCompletedThreads();
+        moveScores[i]=minimax(position, depth, -99999, 99999, true);
+    
+      
     }
 
     public int minimax(Tile[][] position2, int depth, int alpha, int beta, boolean turn) {
