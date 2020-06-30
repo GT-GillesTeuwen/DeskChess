@@ -33,15 +33,39 @@ import javafx.stage.Stage;
  */
 public class NamingScreenFXMLController implements Initializable {
 
+    /**
+     * A text field that receives the name the user has chosen for the game
+     */
     @FXML
     private TextField nameFld;
+
+    /**
+     * Button that allows the user to confirm their save name and triggers the
+     * write to database
+     */
     @FXML
-    private Button saveBTN;
+    private Button saveBtn;
+
+    /**
+     * Label that displays any errors encountered by the save process
+     */
     @FXML
     private Label errLbl;
 
+    /**
+     * Database manager object that facilitates the linking and saving of the
+     * current board configuration
+     */
     private DBManager db = new DBManager();
+
+    /**
+     * The ChessApp the user was playing in Used to get position and save
+     */
     private ChessApp game;
+
+    /**
+     * The user currently attempting to save
+     */
     private User user;
 
     /**
@@ -51,12 +75,27 @@ public class NamingScreenFXMLController implements Initializable {
         // TODO
     }
 
+    /**
+     * Sets the game and user like a constructor Constructor could not be used
+     * because the class implements initializable
+     *
+     * @param game The ChessApp the user was previously playing in
+     * @param user The user who was playing
+     */
     public void setAll(ChessApp game, User user) {
-
         this.game = game;
         this.user = user;
     }
 
+    /**
+     * Executed when saveBtn is clicked Does basic validation (Check for
+     * presence and uniqueness) then saves the board to the database, finally
+     * closing the screen
+     *
+     * @param event
+     * @throws SQLException
+     * @throws IOException
+     */
     @FXML
     private void saveGame(ActionEvent event) throws SQLException, IOException {
         ObservableList<String> info = db.getBoardNames(user.getUserName());
@@ -70,7 +109,7 @@ public class NamingScreenFXMLController implements Initializable {
         } else {
             game.save(user, nameFld.getText());
 
-            Stage homeStage = (Stage) saveBTN.getScene().getWindow();
+            Stage homeStage = (Stage) saveBtn.getScene().getWindow();
             homeStage.close();
             FXMLLoader loadWelcomeScreen = new FXMLLoader(getClass().getResource("/deskchessHomeScreen/HomeScreenFXML.fxml"));
             Parent root = (Parent) loadWelcomeScreen.load();

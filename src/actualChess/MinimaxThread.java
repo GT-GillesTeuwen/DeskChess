@@ -14,46 +14,80 @@ import java.util.ArrayList;
  */
 public class MinimaxThread extends Thread {
 
-    private int i;
-    
-    private int mainDepth = 3;
+    /**
+     * The position in the movesScores array of this thread and position
+     */
+    private final int i;
 
-    private Tile[][] position;
-    
-    private RecursiveAI mainBrain;
-   
-    private int[] moveScores;
-    
-    private int depth;
+    /**
+     * The position that is being assessed by the minimax algorithm to get a
+     * score
+     */
+    private final Tile[][] position;
 
-    public MinimaxThread(Tile[][] position, int i,RecursiveAI main,int[] moveScores, int depth) {
+    /**
+     * The moveScores array linked to the main RecursiveAI
+     */
+    private final int[] moveScores;
+
+    /**
+     * How many moves ahead the algorithm is thinking
+     */
+    private final int depth;
+
+    /**
+     * Thread constructor
+     *
+     * @param position The position that is being assessed by the minimax
+     * algorithm to get a score
+     * @param i The position in the movesScores array of this thread and
+     * position
+     * @param moveScores The moveScores array linked to the main RecursiveAI
+     * @param depth How many moves ahead the algorithm is thinking
+     */
+    public MinimaxThread(Tile[][] position, int i, int[] moveScores, int depth) {
         this.position = position;
-        this.i =i;
-        this.mainBrain=main;
-        this.moveScores=moveScores;
-        this.depth=depth;
+        this.i = i;
+        this.moveScores = moveScores;
+        this.depth = depth;
     }
 
+    /**
+     * Begins running the thread
+     */
     @Override
     public void run() {
-        moveScores[i]=minimax(position, depth, -99999, 99999, true);
-    
-      
+        moveScores[i] = minimax(position, depth, -99999, 99999, true);
+
     }
 
-    public int minimax(Tile[][] position2, int depth, int alpha, int beta, boolean turn) {
+    /**
+     * Minimax algorithm which uses itself recursively to assign a score to each
+     * position that is fed in. The lower the score the better for black the
+     * higher the better for white. It assumes each player makes the most
+     * logical move to maximise or minimise the score
+     *
+     * @param positionBrd The position being assigned the score
+     * @param depth how many moves the algorithm is thinking ahead
+     * @param alpha A potential maximum value used to prune the decision tree
+     * @param beta A potential minimum value used to prune the decision tree
+     * @param turn The colour being assessed (black - min) (white - max)
+     * @return Returns the potential maximum, minimum or final score of a given
+     * position
+     */
+    public int minimax(Tile[][] positionBrd, int depth, int alpha, int beta, boolean turn) {
         Tile[][] position = new Tile[8][8];
-        position=arrayCopy(position2, position);
+        position = arrayCopy(positionBrd, position);
         if (depth == 0) {
-           // System.out.println("ID: "+this.getId()+" Score: "+calculateScore(printBoard(position)));
+            // System.out.println("ID: "+this.getId()+" Score: "+calculateScore(printBoard(position)));
             return calculateScore(printBoard(position));
         }
         ArrayList<RecursiveAIResult> moves = thinkMove(position, turn);
         if (turn) {
             int maxEval = -10000;
-            for (int i = 0; i < moves.size(); i++) {
+            for (int j = 0; j < moves.size(); j++) {
 
-                int eval = minimax(moves.get(i).getRetBrd(), depth - 1, alpha, beta, true);
+                int eval = minimax(moves.get(j).getRetBrd(), depth - 1, alpha, beta, true);
                 maxEval = max(maxEval, eval);
                 alpha = max(alpha, eval);
                 if (beta <= alpha) {
@@ -61,13 +95,13 @@ public class MinimaxThread extends Thread {
                     break;
                 }
             }
-            //System.out.println(this.getId()+"Working");
+
             return maxEval;
         } else {
             int minEval = 100000;
-            for (int i = 0; i < moves.size(); i++) {
-                int eval = minimax(moves.get(i).getRetBrd(), depth - 1, alpha, beta, false);
-                
+            for (int j = 0; j < moves.size(); j++) {
+                int eval = minimax(moves.get(j).getRetBrd(), depth - 1, alpha, beta, false);
+
                 minEval = min(minEval, eval);
                 beta = min(beta, eval);
 
@@ -76,7 +110,6 @@ public class MinimaxThread extends Thread {
                     break;
                 }
             }
-            //System.out.println(this.getId()+"Working");
             return minEval;
         }
     }
@@ -109,53 +142,71 @@ public class MinimaxThread extends Thread {
         return num2;
     }
 
+    /**
+     * Returns a string equivalent of the current board state
+     *
+     * @param board the current board state to be printed
+     * @return
+     */
     public String printBoard(Tile[][] board) {
         String brdPrint = "";
         //Loops through all the tiles on the board and adds the specfied character denoting which piece is on the tile if any 
-        for (int i = 0; i < 8; i++) {
+        for (int y = 0; y < 8; y++) {
             for (int j = 0; j < 8; j++) {
-                if (null == board[j][i].getPiece()) {
+                if (null == board[j][y].getPiece()) {
                     brdPrint += ("0");
                 } else {
-                    switch (board[j][i].getPiece().getColour()) {
+                    switch (board[j][y].getPiece().getColour()) {
                         case BLACK:
-                            if (board[j][i].getPiece().getType() == PieceType.PAWN) {
-                                brdPrint += ("p");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.ROOK) {
-                                brdPrint += ("r");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KNIGHT) {
-                                brdPrint += ("n");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.BISHOP) {
-                                brdPrint += ("b");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.QUEEN) {
-                                brdPrint += ("q");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KING) {
-                                brdPrint += ("k");
+                            if (null != board[j][y].getPiece().getType()) {
+                                switch (board[j][y].getPiece().getType()) {
+                                    case PAWN:
+                                        brdPrint += ("p");
+                                        break;
+                                    case ROOK:
+                                        brdPrint += ("r");
+                                        break;
+                                    case KNIGHT:
+                                        brdPrint += ("n");
+                                        break;
+                                    case BISHOP:
+                                        brdPrint += ("b");
+                                        break;
+                                    case QUEEN:
+                                        brdPrint += ("q");
+                                        break;
+                                    case KING:
+                                        brdPrint += ("k");
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             break;
                         case WHITE:
-                            if (board[j][i].getPiece().getType() == PieceType.PAWN) {
-                                brdPrint += ("P");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.ROOK) {
-                                brdPrint += ("R");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KNIGHT) {
-                                brdPrint += ("N");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.BISHOP) {
-                                brdPrint += ("B");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.QUEEN) {
-                                brdPrint += ("Q");
-                            }
-                            if (board[j][i].getPiece().getType() == PieceType.KING) {
-                                brdPrint += ("K");
+                            if (null != board[j][y].getPiece().getType()) {
+                                switch (board[j][y].getPiece().getType()) {
+                                    case PAWN:
+                                        brdPrint += ("P");
+                                        break;
+                                    case ROOK:
+                                        brdPrint += ("R");
+                                        break;
+                                    case KNIGHT:
+                                        brdPrint += ("N");
+                                        break;
+                                    case BISHOP:
+                                        brdPrint += ("B");
+                                        break;
+                                    case QUEEN:
+                                        brdPrint += ("Q");
+                                        break;
+                                    case KING:
+                                        brdPrint += ("K");
+                                        break;
+                                    default:
+                                        break;
+                                }
                             }
                             break;
                         default:
@@ -170,6 +221,11 @@ public class MinimaxThread extends Thread {
         return brdPrint;
     }
 
+    /**
+     * @param brd Receives the position being evaluated for a score
+     * @return Returns an integer to represent the which colour is winning and
+     * by how much
+     */
     private int calculateScore(String brd) {
         int calculatedScore = 0;
         for (int y = 0; y < brd.length(); y++) {
@@ -216,8 +272,17 @@ public class MinimaxThread extends Thread {
         }
         return calculatedScore;
     }
-    
-     public ArrayList<RecursiveAIResult> thinkMove(Tile[][] workingBrd, boolean aheadTurn) {
+
+    /**
+     * Generates an arrayList of all the possible positions that van come from a
+     * particular position
+     *
+     * @param workingBrd Receives the board being extrapolated for possible
+     * moves
+     * @param aheadTurn Receives the turn on the next move
+     * @return
+     */
+    public ArrayList<RecursiveAIResult> thinkMove(Tile[][] workingBrd, boolean aheadTurn) {
         boolean thinkAheadturn = aheadTurn;
         int compMoveOldX = 0;
         int compMoveOldY = 0;

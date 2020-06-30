@@ -207,12 +207,18 @@ public class Piece extends StackPane {
         relocate(oldX, oldY);
     }
     
+    /**
+     * Allows the piece to be dragged and relocated
+     */
     public void allowMove(){
          setOnMouseDragged(e -> {
                 relocate(e.getSceneX() - TILE_SIZE * 0.42850, e.getSceneY() - TILE_SIZE * 0.42850);
             });
     }
     
+    /**
+     * Prevents the piece to be dragged and relocated
+     */
     public void disallowMove(){
         setOnMouseDragged(e -> {
                

@@ -25,8 +25,8 @@
             <Font name="Constantia Bold Italic" size="36.0" />
          </font>
       </Label>
-      <Button fx:id="loadBtn" layoutX="640.0" layoutY="699.0" mnemonicParsing="false" onAction="#loadGame" onMouseEntered="#dark" onMouseExited="#light" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #00000000;" />
-      <Button fx:id="backBtn" layoutX="840.0" layoutY="699.0" mnemonicParsing="false" onAction="#backToHome" onMouseEntered="#darkB" onMouseExited="#lightB" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #00000000;" />
+      <Button fx:id="loadBtn" layoutX="640.0" layoutY="699.0" mnemonicParsing="false" onAction="#loadGame" onMouseEntered="#continueBtnDark" onMouseExited="#continueBtnLight" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #00000000;" />
+      <Button fx:id="backBtn" layoutX="840.0" layoutY="699.0" mnemonicParsing="false" onAction="#backToHome" onMouseEntered="#backBtnDark" onMouseExited="#backBtnLight" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #00000000;" />
       <Button fx:id="helpBtn" layoutX="1221.0" mnemonicParsing="false" onAction="#displayHelp" onMouseEntered="#helpBtnTog" onMouseExited="#helpBtnUntog" prefHeight="62.0" prefWidth="53.0" style="-fx-background-color: #00000000;" />
    </children>
 </AnchorPane>

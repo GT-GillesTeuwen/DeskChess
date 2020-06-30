@@ -31,20 +31,38 @@ import javafx.stage.Stage;
  */
 public class HomeHelpScreenController implements Initializable {
 
+    /**'
+     * Imageview that holds the background image
+     */
     @FXML
     private ImageView viewImageBG;
 
+    /**
+     * The user that is currently signed in
+     */
     private User currentUser;
     
+    /**
+     * The image and imageview for the back button
+     */
     Image backIconImage = new Image("/icons/BackBtn.png");
     ImageView backImageView = new ImageView(backIconImage);
     
+    /**
+     * The image and imageview for the hovered back button
+     */
     Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
     ImageView DbackImageView = new ImageView(DbackIconImage);
     
+    /**
+     * The image and imageview for the help button
+     */
     Image homeHelpBgImage = new Image("/icons/HomeScreenHelp.png");
     ImageView homeHelpBgImageView = new ImageView(homeHelpBgImage);
     @FXML
+    /**
+     * The button that allows the user to return
+     */
     private Button backBtn;
 
     /**
@@ -60,9 +78,18 @@ public class HomeHelpScreenController implements Initializable {
         backBtn.setGraphic(backImageView);
     }
 
+    /**
+     * 
+     * @param user Sets the current user  
+     */
     public void setCurretnUser(User user){
         this.currentUser=user;
     }
+    
+    /**
+     * Makes the button light when not hovered over
+     * @param event 
+     */
     @FXML
     private void lightB(MouseEvent event) {
         backImageView.setFitWidth(179);
@@ -70,6 +97,10 @@ public class HomeHelpScreenController implements Initializable {
         backBtn.setGraphic(backImageView);
     }
 
+    /**
+     * Makes the button dark when hovered over
+     * @param event 
+     */
     @FXML
     private void darkB(MouseEvent event) {
         DbackImageView.setFitWidth(179);
@@ -78,6 +109,10 @@ public class HomeHelpScreenController implements Initializable {
     }
 
     @FXML
+    
+    /**
+     * Allows the user to close the help page and return to the home page
+     */
     private void backToHome(ActionEvent event) {
         try {
             Stage homeStage = (Stage) backBtn.getScene().getWindow();

@@ -9,7 +9,6 @@ import actualChess.ChessApp;
 import actualChess.DBManager;
 import chessjavafxmlbeta.Board;
 import chessjavafxmlbeta.User;
-import deskchessHomeHelpScreen.HomeHelpScreenController;
 import deskchessHomeScreen.HomeScreenFXMLDocumentController;
 import deskchessMatchScreen.MatchScreenController;
 import deskchessSelectionHelpScreen.SelectionHelpScreenController;
@@ -28,14 +27,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TablePosition;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 
@@ -46,38 +43,87 @@ import javafx.stage.Stage;
  */
 public class SelectionScreenFXMLController implements Initializable {
 
+    /**
+     * The image view that holds the background image of the page
+     */
     @FXML
     private ImageView MatchBG;
+
+    /**
+     * The table view populated with board objects that holds the user's
+     * unfinished games
+     */
     @FXML
     private TableView<Board> loadGamesTbl;
 
+    /**
+     * The user currently signed in
+     */
     private User currentUser;
+
+    /**
+     * Button used by the user to load and continue the selected saved game
+     */
     @FXML
     private Button loadBtn;
+
+    /**
+     * Button used by the user to return to the home screen
+     */
     @FXML
     private Button backBtn;
 
-    Image continueIconImage = new Image("/icons/ContinueBtn.png");
-    ImageView continueImageView = new ImageView(continueIconImage);
+    /**
+     * Image and image view of the load/continue button
+     */
+    Image continueIconImageLight = new Image("/icons/ContinueBtn.png");
+    ImageView continueImageViewLight = new ImageView(continueIconImageLight);
 
-    Image backIconImage = new Image("/icons/BackBtn.png");
-    ImageView backImageView = new ImageView(backIconImage);
+    /**
+     * Image and image view of the back button
+     */
+    Image backIconImageLight = new Image("/icons/BackBtn.png");
+    ImageView backImageViewLight = new ImageView(backIconImageLight);
 
-    Image DcontinueIconImage = new Image("/icons/DarkContinueBtn.png");
-    ImageView DcontinueImageView = new ImageView(DcontinueIconImage);
+    /**
+     * Image and image view of the hovered load/continue button
+     */
+    Image continueIconImageDark = new Image("/icons/DarkContinueBtn.png");
+    ImageView continueImageViewDark = new ImageView(continueIconImageDark);
 
-    Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
-    ImageView DbackImageView = new ImageView(DbackIconImage);
+    /**
+     * Image and image view of the hovered back button
+     */
+    Image backIconImageDark = new Image("/icons/DarkBackBtn.png");
+    ImageView backImageViewDark = new ImageView(backIconImageDark);
 
+    /**
+     * Image and image view of the help button
+     */
     Image helpIconImage = new Image("/icons/helpBtn.png");
     ImageView helpImageView = new ImageView(helpIconImage);
 
-    Image helpTogIconImage = new Image("/icons/helpBtnTog.png");
-    ImageView helpTogImageView = new ImageView(helpTogIconImage);
+    /**
+     * Image and image view of the hovered help button
+     */
+    Image helpIconImageToggled = new Image("/icons/helpBtnTog.png");
+    ImageView helpImageViewToggled = new ImageView(helpIconImageToggled);
+
+    /**
+     * The help button used to open the associated help page
+     */
     @FXML
     private Button helpBtn;
+
+    /**
+     * Button used by the user to delete saved games they wish to abandon
+     */
     @FXML
     private MenuItem deleteBTN;
+
+    /**
+     * Anchor pane holding all other UI elements
+     */
     @FXML
     private AnchorPane anchor;
 
@@ -89,19 +135,19 @@ public class SelectionScreenFXMLController implements Initializable {
         Image bgGameScreenImage = new Image("/icons/GameScreenBG.jpg");
         MatchBG.setImage(bgGameScreenImage);
 
-        DcontinueImageView.setFitWidth(179);
-        DcontinueImageView.setFitHeight(48);
+        continueImageViewDark.setFitWidth(179);
+        continueImageViewDark.setFitHeight(48);
 
-        DbackImageView.setFitWidth(179);
-        DbackImageView.setFitHeight(48);
+        backImageViewDark.setFitWidth(179);
+        backImageViewDark.setFitHeight(48);
 
-        continueImageView.setFitWidth(179);
-        continueImageView.setFitHeight(48);
-        loadBtn.setGraphic(continueImageView);
+        continueImageViewLight.setFitWidth(179);
+        continueImageViewLight.setFitHeight(48);
+        loadBtn.setGraphic(continueImageViewLight);
 
-        backImageView.setFitWidth(179);
-        backImageView.setFitHeight(48);
-        backBtn.setGraphic(backImageView);
+        backImageViewLight.setFitWidth(179);
+        backImageViewLight.setFitHeight(48);
+        backBtn.setGraphic(backImageViewLight);
 
         helpImageView.setFitWidth(50);
         helpImageView.setFitHeight(50);
@@ -109,6 +155,15 @@ public class SelectionScreenFXMLController implements Initializable {
 
     }
 
+    /**
+     * Sets the screen user to the parsed in user
+     *
+     * Initializes and populates the table with that users games read in from
+     * the database
+     *
+     * @param currentUser The user currently signed in
+     * @throws SQLException
+     */
     public void setCurrentUser(User currentUser) throws SQLException {
         this.currentUser = currentUser;
 
@@ -127,12 +182,20 @@ public class SelectionScreenFXMLController implements Initializable {
         gameTimeCol.getStyleClass().add("gameNameCol");
         gameTimeCol.setCellValueFactory(new PropertyValueFactory<>("time"));
         DBManager db = new DBManager();
-        //loadGamesTbl.getStyleClass().add("gameNamecol");
+
         loadGamesTbl.setItems(db.getBoards(currentUser.getUserName()));
         loadGamesTbl.getColumns().addAll(gameNameCol, gameDateCol, gameTimeCol);
 
     }
 
+    /**
+     * Executes when the load/continue button is clicked Fetches the selected
+     * game's name and configuration then parses it through to the match screen
+     * that is opened. Sets the user of the match screen to the signed in user.
+     * Closes the selection screen.
+     *
+     * @param event
+     */
     @FXML
     private void loadGame(ActionEvent event) {
         Board board = loadGamesTbl.getSelectionModel().getSelectedItem();
@@ -159,6 +222,16 @@ public class SelectionScreenFXMLController implements Initializable {
         }
     }
 
+    /**
+     * Executes when the back button is clicked.
+     *
+     * Open the home screen and sets the user to the signed in user.
+     *
+     * Closes the selection screen.
+     *
+     * @param event
+     * @throws IOException
+     */
     @FXML
     private void backToHome(ActionEvent event) throws IOException {
         Stage homeStage = (Stage) backBtn.getScene().getWindow();
@@ -172,34 +245,60 @@ public class SelectionScreenFXMLController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Changes the continue button to the light image when the mouse exits it
+     *
+     * @param event
+     */
     @FXML
-    private void light(MouseEvent event) {
-        continueImageView.setFitWidth(179);
-        continueImageView.setFitHeight(48);
-        loadBtn.setGraphic(continueImageView);
+    private void continueBtnLight(MouseEvent event) {
+        continueImageViewLight.setFitWidth(179);
+        continueImageViewLight.setFitHeight(48);
+        loadBtn.setGraphic(continueImageViewLight);
     }
 
+    /**
+     * Changes the continue button to the dark image when the mouse exits it
+     *
+     * @param event
+     */
     @FXML
-    private void dark(MouseEvent event) {
-        continueImageView.setFitWidth(179);
-        continueImageView.setFitHeight(48);
-        loadBtn.setGraphic(DcontinueImageView);
+    private void continueBtnDark(MouseEvent event) {
+        continueImageViewLight.setFitWidth(179);
+        continueImageViewLight.setFitHeight(48);
+        loadBtn.setGraphic(continueImageViewDark);
     }
 
+    /**
+     * Changes the back button to the light image when the mouse exits it
+     *
+     * @param event
+     */
     @FXML
-    private void lightB(MouseEvent event) {
-        backImageView.setFitWidth(179);
-        backImageView.setFitHeight(48);
-        backBtn.setGraphic(backImageView);
+    private void backBtnLight(MouseEvent event) {
+        backImageViewLight.setFitWidth(179);
+        backImageViewLight.setFitHeight(48);
+        backBtn.setGraphic(backImageViewLight);
     }
 
+    /**
+     * Changes the back button to the dark image when the mouse exits it
+     *
+     * @param event
+     */
     @FXML
-    private void darkB(MouseEvent event) {
-        DbackImageView.setFitWidth(179);
-        DbackImageView.setFitHeight(48);
-        backBtn.setGraphic(DbackImageView);
+    private void backBtnDark(MouseEvent event) {
+        backImageViewDark.setFitWidth(179);
+        backImageViewDark.setFitHeight(48);
+        backBtn.setGraphic(backImageViewDark);
     }
 
+    /**
+     * Executes when the help button is clicked Opens the help screen associated
+     * with this page Closes this page
+     *
+     * @param event
+     */
     @FXML
     private void displayHelp(ActionEvent event) {
         try {
@@ -220,6 +319,11 @@ public class SelectionScreenFXMLController implements Initializable {
         }
     }
 
+    /**
+     * Set the help button to the un-toggled when the mouse exits it
+     *
+     * @param event
+     */
     @FXML
     private void helpBtnUntog(MouseEvent event) {
         helpImageView.setFitWidth(50);
@@ -227,13 +331,25 @@ public class SelectionScreenFXMLController implements Initializable {
         helpBtn.setGraphic(helpImageView);
     }
 
+    /**
+     * Set the help button to the toggled when the mouse exits it
+     *
+     * @param event
+     */
     @FXML
     private void helpBtnTog(MouseEvent event) {
-        helpTogImageView.setFitWidth(50);
-        helpTogImageView.setFitHeight(50);
-        helpBtn.setGraphic(helpTogImageView);
+        helpImageViewToggled.setFitWidth(50);
+        helpImageViewToggled.setFitHeight(50);
+        helpBtn.setGraphic(helpImageViewToggled);
     }
 
+    /**
+     * Executed when the user clicks the delete game button. Deletes the
+     * selected game from the database
+     *
+     * @param event
+     * @throws SQLException
+     */
     @FXML
     private void DeleteGame(ActionEvent event) throws SQLException {
         Board board = loadGamesTbl.getSelectionModel().getSelectedItem();
@@ -244,9 +360,14 @@ public class SelectionScreenFXMLController implements Initializable {
 
     }
 
+    /**
+     * Called when the user selects a game from the table.
+     *
+     * A representation of the board is loaded in next to the table to preview
+     * the state of the selected game.
+     */
     @FXML
     private void displayBrd(MouseEvent event) {
-        System.out.println("AAAAAAA");
         try {
             Board board = loadGamesTbl.getSelectionModel().getSelectedItem();
             System.out.println(board.getConfiguration());

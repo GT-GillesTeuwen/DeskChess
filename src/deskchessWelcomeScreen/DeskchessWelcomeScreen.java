@@ -17,6 +17,11 @@ import javafx.stage.Stage;
  */
 public class DeskchessWelcomeScreen extends Application {
 
+    /**
+     * Opens the welcome screen
+     * @param stage
+     * @throws Exception 
+     */
     @Override
     public void start(Stage stage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("WelcomeScreenFXML.fxml"));
@@ -28,6 +33,7 @@ public class DeskchessWelcomeScreen extends Application {
     }
 
     /**
+     * Runs when the application is launched
      * @param args the command line arguments
      */
     public static void main(String[] args) {

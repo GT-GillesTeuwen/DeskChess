@@ -201,19 +201,37 @@ public class User {
         err = "Invalid username";
         return false;
     }
+    
+    /**
+     * Adds a win to the user
+     * @throws SQLException 
+     */
     public void addWin() throws SQLException{
         db.addWin(userName);
         this.wins=db.getWins(userName);
     }
+    
+    /**
+     * Adds a loss to the user
+     * @throws SQLException 
+     */
     public void addLoss() throws SQLException{
         db.addLoss(userName);
         this.losses=db.getLosses(userName);
     }
 
+    /**
+     * 
+     * @return Returns the total wins of the user
+     */
     public int getWins() {
         return wins;
     }
 
+    /**
+     * 
+     * @return Returns the total losses of the user
+     */
     public int getLosses() {
         return losses;
     }

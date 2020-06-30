@@ -15,12 +15,12 @@
             <Font name="Verdana Italic" size="82.0" />
          </font>
       </Label>
-      <Button fx:id="newGamebtn" layoutX="61.0" layoutY="130.0" mnemonicParsing="false" onAction="#goToWelcome" onMouseEntered="#btn1Bigger" onMouseExited="#btn1Smaller" prefHeight="119.0" prefWidth="291.0" style="-fx-background-color: #FFFFFF; -fx-background-color: #00000000;">
+      <Button fx:id="newGameBtn" layoutX="61.0" layoutY="130.0" mnemonicParsing="false" onAction="#goToNewMatch" onMouseEntered="#newGameBtnBigger" onMouseExited="#newGameBtnSmaller" prefHeight="119.0" prefWidth="291.0" style="-fx-background-color: #FFFFFF; -fx-background-color: #00000000;">
           <tooltip>
             <Tooltip text="Start a new game" />
          </tooltip>
       </Button>
-      <Button fx:id="continueGamebtn" layoutX="61.0" layoutY="249.0" mnemonicParsing="false" onAction="#changeColour" onMouseClicked="#contGame" onMouseEntered="#btn2Bigger" onMouseExited="#btn2Smaller" prefHeight="119.0" prefWidth="291.0" style="-fx-background-color: #FFFFFF; -fx-background-color: #00000000;">
+      <Button fx:id="continueGameBtn" layoutX="61.0" layoutY="249.0" mnemonicParsing="false" onAction="#continueGame" onMouseEntered="#continueGameBtnBigger" onMouseExited="#continueGameBtnSmaller" prefHeight="119.0" prefWidth="291.0" style="-fx-background-color: #FFFFFF; -fx-background-color: #00000000;">
           <tooltip>
             <Tooltip text="Continue a saved game" />
           </tooltip>

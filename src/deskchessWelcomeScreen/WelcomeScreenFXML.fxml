@@ -20,12 +20,12 @@
             <Font name="Constantia Bold Italic" size="43.0" />
          </font>
       </Label>
-      <Button fx:id="signUpbtn" layoutX="105.0" layoutY="539.0" mnemonicParsing="false" onAction="#openSignUpScreen" prefHeight="35.0" prefWidth="146.0" text="Sign up">
+      <Button fx:id="signUpBtn" layoutX="105.0" layoutY="539.0" mnemonicParsing="false" onAction="#openSignUpScreen" prefHeight="35.0" prefWidth="146.0" text="Sign up">
          <tooltip>
             <Tooltip text="I'm new" />
          </tooltip>
       </Button>
-      <Button fx:id="signInbtn" layoutX="328.0" layoutY="539.0" mnemonicParsing="false" onAction="#openSignInscreen" prefHeight="35.0" prefWidth="146.0" text="Sign in">
+      <Button fx:id="signInBtn" layoutX="328.0" layoutY="539.0" mnemonicParsing="false" onAction="#openSignInscreen" prefHeight="35.0" prefWidth="146.0" text="Sign in">
          <tooltip>
             <Tooltip text="I have an account" />
          </tooltip></Button>

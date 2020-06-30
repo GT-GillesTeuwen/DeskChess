@@ -76,6 +76,8 @@ public class DBManager {
                         + "	\"Username\"	VARCHAR(25),\n"
                         + "	\"Password\"	VARCHAR(30),\n"
                         + "	\"email\"	VARCHAR(70),\n"
+                        + "	\"Wins\"	INTEGER,\n"
+                        + "	\"Losses\"	INTEGER,\n"
                         + "	PRIMARY KEY(\"Username\")\n"
                         + ");");
                 state.execute("CREATE TABLE \"Boards\" (\n"
@@ -304,6 +306,13 @@ public class DBManager {
         prep.execute();
     }
 
+    
+    /**
+     * Adds a win to the given users total tally of wins
+     * 
+     * @param user Receives the user who is getting getting a win
+     * @throws SQLException 
+     */
     public void addWin(String user) throws SQLException {
         if (con == null) {
             getConnection();
@@ -316,6 +325,12 @@ public class DBManager {
         prep.execute();
     }
 
+    /**
+     * Adds a loss to the given users total tally of losses
+     * 
+     * @param user Receives the user who is getting getting a loss
+     * @throws SQLException 
+     */
     public void addLoss(String user) throws SQLException {
         if (con == null) {
             getConnection();
@@ -328,6 +343,12 @@ public class DBManager {
         prep.execute();
     }
 
+    /**
+     * 
+     * @param user Receives the user who's wins are being queried
+     * @return Returns the number of wins
+     * @throws SQLException 
+     */
     public int getWins(String user) throws SQLException {
         int wins = 0;
         ResultSet res = null;
@@ -350,6 +371,12 @@ public class DBManager {
         return wins;
     }
 
+    /**
+     * 
+     * @param user Receives the user who's losses are being queried
+     * @return Returns the number of losses
+     * @throws SQLException 
+     */
     public int getLosses(String user) throws SQLException {
         int losses = 0;
         ResultSet res = null;

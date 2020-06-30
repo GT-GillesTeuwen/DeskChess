@@ -39,44 +39,90 @@ import javafx.stage.Stage;
  */
 public class HomeScreenFXMLDocumentController implements Initializable {
 
+    /**
+     * The imageview that holds the background image
+     */
     @FXML
     private ImageView viewImageBG;
+    
+    /**
+     * The button that allows the user to go to the saved game selection screen
+     */
     @FXML
-    private Button newGamebtn;
-    @FXML
-    private Button continueGamebtn;
+    private Button continueGameBtn;
+    
+    /**
+     * The button that allows the user open the help page
+     */
     @FXML
     private Button helpBtn;
 
+    /**
+     * The current user using the app
+     */
     private User currentUser;
 
-    //Variables
+   
+    
+    /**
+     * The image and imageview of the new game button
+     */
     Image newGameIconImage = new Image("/icons/NewGamebtn.png");
     ImageView newGameImageView = new ImageView(newGameIconImage);
 
+    /**'
+     * The image and imageview of the continue game button
+     */
     Image continueGameIconImage = new Image("/icons/ContinueGamebtn.png");
     ImageView continueGameImageView = new ImageView(continueGameIconImage);
 
+    /**'
+     * The image and imageview of the help button
+     */
     Image helpIconImage = new Image("/icons/helpBtn.png");
     ImageView helpImageView = new ImageView(helpIconImage);
 
+    /**'
+     * The image and imageview of the toggled help button
+     */
     Image helpTogIconImage = new Image("/icons/helpBtnTog.png");
     ImageView helpTogImageView = new ImageView(helpTogIconImage);
 
+    /**
+     * The pixel width and height of a tile
+     */
     public static final int TILE_SIZE = 65;
+    
+    /**
+     * The dimensions of the board
+     */
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
 
-    private final Group tileGroup = new Group();
-    private final Group pieceGroup = new Group();
-
-    private final boolean turn = true;
-    private Pane root1;
+    /**
+    * A label that displays the users total wins  
+    */
     @FXML
     private Label winsLbl;
+    /**
+     * A label that displays the users total losses
+     */
     @FXML
     private Label lossesLbl;
 
+    /**
+     * Boolean that holds whether the the help button is toggled
+     */
+    private boolean btnTog = true;
+    
+    /**
+     * The button used to start a new game
+     */
+    @FXML
+    private Button newGameBtn;
+   
+
+    
     /**
      * Initializes the controller class.
      *
@@ -89,11 +135,11 @@ public class HomeScreenFXMLDocumentController implements Initializable {
 
         newGameImageView.setFitWidth(270);
         newGameImageView.setFitHeight(119);
-        newGamebtn.setGraphic(newGameImageView);
+        newGameBtn.setGraphic(newGameImageView);
 
         continueGameImageView.setFitWidth(270);
         continueGameImageView.setFitHeight(119);
-        continueGamebtn.setGraphic(continueGameImageView);
+        continueGameBtn.setGraphic(continueGameImageView);
 
         helpImageView.setFitWidth(50);
         helpImageView.setFitHeight(50);
@@ -102,49 +148,123 @@ public class HomeScreenFXMLDocumentController implements Initializable {
         
     }
 
-    boolean btnTog = true;
+    
 
+    
+     /**
+     * 
+     * @param event makes the new game button smaller when the mouse exits it
+     */
     @FXML
-    private void changeColour(ActionEvent event) {
-
-    }
-
-    @FXML
-    private void btn1Smaller(MouseEvent event) {
+    private void newGameBtnSmaller(MouseEvent event) {
         newGameImageView.setFitWidth(270);
         newGameImageView.setFitHeight(119);
-        newGamebtn.setGraphic(newGameImageView);
+        newGameBtn.setGraphic(newGameImageView);
 
     }
 
+    /**
+     * 
+     * @param event makes the new game button bigger when the mouse enters it
+     */
     @FXML
-    private void btn1Bigger(MouseEvent event) {
+    private void newGameBtnBigger(MouseEvent event) {
         newGameImageView.setFitWidth(295);
         newGameImageView.setFitHeight(130);
-        newGamebtn.setGraphic(newGameImageView);
+        newGameBtn.setGraphic(newGameImageView);
     }
 
+    /**
+     * 
+     * @param event makes the continue game button smaller when the mouse exits it
+     */
     @FXML
-    private void btn2Smaller(MouseEvent event) {
+    private void continueGameBtnSmaller(MouseEvent event) {
         continueGameImageView.setFitWidth(270);
         continueGameImageView.setFitHeight(119);
-        continueGamebtn.setGraphic(continueGameImageView);
+        continueGameBtn.setGraphic(continueGameImageView);
     }
 
+    /**
+     * 
+     * @param event makes the continue game button bigger when the mouse enters it
+     */
     @FXML
-    private void btn2Bigger(MouseEvent event) {
+    private void continueGameBtnBigger(MouseEvent event) {
         continueGameImageView.setFitWidth(295);
         continueGameImageView.setFitHeight(130);
-        continueGamebtn.setGraphic(continueGameImageView);
+        continueGameBtn.setGraphic(continueGameImageView);
     }
 
-    public Tile[][] board = new Tile[WIDTH][HEIGHT];
+    
+    /**
+     * 
+     * @param currentUser Sets the current user to the parsed in user
+     */
+    public void setCurrentUser(User currentUser) {
+        this.currentUser = currentUser;
+        winsLbl.setText(currentUser.getWins()+"");
+        lossesLbl.setText(currentUser.getLosses()+"");
+    }
 
+    /**
+     * Opens the help screen when clicked
+     * @param event
+     * @throws IOException 
+     */
     @FXML
-    private void goToWelcome(ActionEvent event) {
-        Stage homeStage = (Stage) continueGamebtn.getScene().getWindow();
+    private void displayHelp(ActionEvent event) throws IOException {
+        
+            try {
+            Stage homeStage = (Stage) continueGameBtn.getScene().getWindow();
+            homeStage.close();
+
+            FXMLLoader loadWelcomeScreen = new FXMLLoader(getClass().getResource("/deskchessHomeHelpScreen/HomeHelpScreen.fxml"));
+            Parent root = loadWelcomeScreen.load();
+            HomeHelpScreenController match = loadWelcomeScreen.getController();
+            match.setCurretnUser(currentUser);
+            Stage newStage = new Stage();
+           
+            Scene scene = new Scene(root);
+            
+            newStage.setScene(scene);
+            newStage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(HomeScreenFXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }
+
+    /**
+     * Changes the image of the help button when the mouse enters it
+     * @param event 
+     */
+    @FXML
+    private void helpBtnUntog(MouseEvent event) {
+        helpImageView.setFitWidth(50);
+        helpImageView.setFitHeight(50);
+        helpBtn.setGraphic(helpImageView);
+    }
+
+    /**
+     * Changes the image of the help button when the mouse exits it
+     * @param event 
+     */
+    @FXML
+    private void helpBtnTog(MouseEvent event) {
+        helpTogImageView.setFitWidth(50);
+        helpTogImageView.setFitHeight(50);
+        helpBtn.setGraphic(helpTogImageView);
+    }
+
+    /**
+     * Opens the match screen with the default setup and closes the home screen
+     * @param event 
+     */
+    @FXML
+    private void goToNewMatch(ActionEvent event) {
+        Stage homeStage = (Stage) continueGameBtn.getScene().getWindow();
         homeStage.close();
-        //Pane scene = new Pane(ChessApp.createContent());
 
         try {
             ChessApp brd = new ChessApp();
@@ -168,10 +288,15 @@ public class HomeScreenFXMLDocumentController implements Initializable {
         }
     }
 
+    
+    /**
+     *  Opens the selection screen with and closes the home screen
+     * @param event 
+     */
     @FXML
-    private void contGame(MouseEvent event) {
-        try {
-            Stage homeStage = (Stage) continueGamebtn.getScene().getWindow();
+    private void continueGame(ActionEvent event) {
+         try {
+            Stage homeStage = (Stage) continueGameBtn.getScene().getWindow();
             homeStage.close();
 
             FXMLLoader loadWelcomeScreen = new FXMLLoader(getClass().getResource("/deskchessSelectionScreen/SelectionScreenFXML.fxml"));
@@ -191,46 +316,6 @@ public class HomeScreenFXMLDocumentController implements Initializable {
         } catch (IOException ex) {
             Logger.getLogger(HomeScreenFXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
         }
-
-    }
-
-    public void setCurrentUser(User currentUser) {
-        this.currentUser = currentUser;
-        winsLbl.setText(currentUser.getWins()+"");
-        lossesLbl.setText(currentUser.getLosses()+"");
-    }
-
-    @FXML
-    private void displayHelp(ActionEvent event) {
-        try {
-            Stage homeStage = (Stage) continueGamebtn.getScene().getWindow();
-            homeStage.close();
-
-            FXMLLoader loadHomeHelp = new FXMLLoader(getClass().getResource("/deskchessHomeHelpScreen/HomeHelpScreen.fxml"));
-            Parent root = (Parent) loadHomeHelp.load();
-            HomeHelpScreenController help = loadHomeHelp.getController();
-            help.setCurretnUser(currentUser);
-            Stage newStage = new Stage();
-            Scene scene = new Scene(root);
-            scene.getStylesheets().add("/deskchessHomeHelpScreen/homehelpscreen.css");
-            newStage.setScene(scene);
-        } catch (IOException ex) {
-            Logger.getLogger(HomeScreenFXMLDocumentController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    @FXML
-    private void helpBtnUntog(MouseEvent event) {
-        helpImageView.setFitWidth(50);
-        helpImageView.setFitHeight(50);
-        helpBtn.setGraphic(helpImageView);
-    }
-
-    @FXML
-    private void helpBtnTog(MouseEvent event) {
-        helpTogImageView.setFitWidth(50);
-        helpTogImageView.setFitHeight(50);
-        helpBtn.setGraphic(helpTogImageView);
     }
 
 }

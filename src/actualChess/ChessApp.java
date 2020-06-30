@@ -33,51 +33,61 @@ public class ChessApp extends Application {
      * Holds the pixel width and height of the tiles
      */
     public static final int TILE_SIZE = 70;
+
     /**
      * Holds the tile width of the board
      */
     public static final int WIDTH = 8;
+
     /**
      * Holds the tile height of the board
      */
     public static final int HEIGHT = 8;
+
     /**
      * Creates a 2d tile array of WIDTH and HEIGHT dimensions
      */
     public Tile[][] board = new Tile[WIDTH][HEIGHT];
+
     /**
      * Integer that stores the various states of check
      */
     private int checkMate = 0;
+
     /**
      * Integer that holds the score assigned to the current board
      */
     private double score = 0;
+
     /**
      * Group that contains all the tiles to display
      */
     private final Group tileGroup = new Group();
+
     /**
      * Group that contains all the pieces to display
      */
     final Group pieceGroup = new Group();
+
     /**
      * Group that contains all the legal indicator dots to display
      */
     final Group legalGroup = new Group();
+
     /**
      * Boolean that stores the current turn True=White False=Black
      */
     private boolean turn = true;
-    /**
-     * Recursive AI to make all the computer's moves
-     */
 
+    /**
+     * Allows the ChessApp with all the logic and pieces to interact with the
+     * FXML Match Screen
+     */
     private MatchScreenController screen;
 
     /**
-     * Creates a chess board with the setup of the brd string parsed in which is
-     * to be read from the database
+     * Creates an 8x8 chess board with the setup of the brd string parsed in
+     * which is to be read from the database after the user has selected it
      *
      * @param brd Receives the string equivalent of the board which is to be
      * loaded in
@@ -94,10 +104,13 @@ public class ChessApp extends Application {
         //Loops through the board and creates the piece on the tile that corrosponds to the location in the brd string
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
+
+                //Creates a tile object using the Tile class
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
                 board[x][y] = tile;
                 tileGroup.getChildren().add(tile);
 
+                //Places the correct piece on the correct position on the board based on the loaded string representation
                 Piece piece = null;
                 switch (loadedBoard[y].charAt(x)) {
                     case 'p':
@@ -140,6 +153,7 @@ public class ChessApp extends Application {
                         break;
                 }
 
+                //Adds the piece icon to the piecegroup allowing the user to see it
                 if (piece != null) {
                     tile.setPiece(piece);
                     pieceGroup.getChildren().add(piece);
@@ -147,7 +161,6 @@ public class ChessApp extends Application {
             }
 
         }
-        //printThreats();
         return root;
     }
 
@@ -162,8 +175,12 @@ public class ChessApp extends Application {
         Pane root = new Pane();
         root.setPrefSize((WIDTH) * TILE_SIZE, (HEIGHT) * TILE_SIZE);
         root.getChildren().addAll(tileGroup, pieceGroup, legalGroup);
+
+        //Loops through the board and creates the piece on the tile that corrosponds to the standard starting location
         for (int y = 0; y < HEIGHT; y++) {
             for (int x = 0; x < WIDTH; x++) {
+
+                //Creates a tile object using the Tile class
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
                 board[x][y] = tile;
                 tileGroup.getChildren().add(tile);
@@ -227,6 +244,7 @@ public class ChessApp extends Application {
                     default:
                         break;
                 }
+                //Adds the piece icon to the piecegroup allowing the user to see it
                 if (piece != null) {
                     tile.setPiece(piece);
                     pieceGroup.getChildren().add(piece);
@@ -428,19 +446,24 @@ public class ChessApp extends Application {
      */
     Piece makePiece(PieceColour colour, PieceType type, int x, int y) {
         BoardLogic bl = new BoardLogic(board);
-        Piece piece = new Piece(colour, type, x, y, true);
+        Boolean moveable = true;
+        if (colour == PieceColour.BLACK) {
+            moveable = false;
+        }
+        Piece piece = new Piece(colour, type, x, y, moveable);
 
         piece.setOnMousePressed((MouseEvent e) -> {
             legalGroup.getChildren().clear();
             showLegal(board, piece);
-            System.out.println("X:"+piece.getOldX()+" Y:"+piece.getOldY());
+            System.out.println("X:" + piece.getOldX() + " Y:" + piece.getOldY());
         });
-        //Executes this block of code when the mouse is released
+        //Executes this block of code when the mouse is released from the piece
         //Snaps piece to nearest tile
         //Sets new threatened tiles
         //Triggers the AI to move
         piece.setOnMouseReleased((MouseEvent e) -> {
             if (turn) {
+
                 RecursiveAI bot = new RecursiveAI(this, screen);
                 int newX = toBoard(piece.getLayoutX());
                 int newY = toBoard(piece.getLayoutY());
@@ -466,6 +489,7 @@ public class ChessApp extends Application {
                             pieceGroup.getChildren().remove(piece);
                             pieceGroup.getChildren().add(promtePiece);
                         }
+
                         turn = false;
                         bl.setTilesThreat(board);
                         legalGroup.getChildren().clear();
@@ -476,10 +500,10 @@ public class ChessApp extends Application {
                         Piece otherPiece = board[newX][newY].getPiece();
                         board[newX][newY].setPiece(null);
                         pieceGroup.getChildren().remove(otherPiece);
-
                         piece.move(newX, newY);
                         board[x0][y0].setPiece(null);
                         board[newX][newY].setPiece(piece);
+
                         if (newY == 0 && piece.getColour() == colour.WHITE && piece.getType() == type.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
@@ -522,14 +546,19 @@ public class ChessApp extends Application {
         return piece;
     }
 
+    /**
+     * Creates an immovable piece for display purposes Used to preview saved
+     * games
+     *
+     * @param colour The colour of the piece being created
+     * @param type The type of the piece being created
+     * @param x The x coordinate of the piece being created
+     * @param y The y coordinate of the piece being created
+     * @return Returns a piece created according to the colour, type, x, and y
+     * parsed through.
+     */
     private Piece makePieceToDisplay(PieceColour colour, PieceType type, int x, int y) {
-
         Piece piece = new Piece(colour, type, x, y, false);
-
-        //Executes this block of code when the mouse is released
-        //Snaps piece to nearest tile
-        //Sets new threatened tiles
-        //Triggers the AI to move
         return piece;
     }
 
@@ -634,6 +663,7 @@ public class ChessApp extends Application {
                                 if (bl.pawnMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
                                     moves++;
+                                
                                 } else if (bl.pawnMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
                                     moves++;
@@ -1066,22 +1096,41 @@ public class ChessApp extends Application {
         return root;
     }
 
+    /**
+     * @param screen Receives the Match Screen Controller object linked to this ChessApp
+     */
     public void setScreen(MatchScreenController screen) {
         this.screen = screen;
     }
 
+    /**
+     * @return Returns the group that holds the piece icons so that other objects can remove them
+     */
     public Group getPieceGroup() {
         return pieceGroup;
     }
 
+    /**
+     * @param checkMate sets the checkmate parameter
+     * 1 for white wins
+     * 2 for black wins
+     */
     public void setCheckMate(int checkMate) {
         this.checkMate = checkMate;
     }
 
+    /**
+     * 
+     * @param turn toggles the turn boolean
+     * can be used from threads
+     */
     public void setTurn(boolean turn) {
         this.turn = turn;
     }
 
+    /**
+     * Loops through the white pieces on the board and sets them to be draggable
+     */
     public void allowMoves() {
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {
@@ -1092,6 +1141,9 @@ public class ChessApp extends Application {
         }
     }
 
+    /**
+     * Loops through the white pieces on the board and sets them to be non-draggable
+     */
     public void disallowMoves() {
         for (int y = 0; y < 8; y++) {
             for (int x = 0; x < 8; x++) {

@@ -24,21 +24,39 @@ import javafx.stage.Stage;
  */
 public class MatchHelpScreenController implements Initializable {
 
+    /**
+     * 
+     * Imageview that holds the background image
+     */
     @FXML
     private ImageView viewImageBG;
 
+    /**
+     * The current user using the app
+     */
     private User currentUser;
-    
+
+    /**'
+     * The image and imageview of the help button
+     */
     Image backIconImage = new Image("/icons/BackBtn.png");
     ImageView backImageView = new ImageView(backIconImage);
     
+    /**'
+     * The image and imageview of the toggled help button
+     */
     Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
     ImageView DbackImageView = new ImageView(DbackIconImage);
-    
+
+    /**
+     * The image and image view of the page's background
+     */
     Image homeHelpBgImage = new Image("/icons/HomeScreenHelp.png");
     ImageView homeHelpBgImageView = new ImageView(homeHelpBgImage);
-    
-    
+
+    /**
+     * The button that allows the user to return to the match screen
+     */
     @FXML
     private Button backBtn;
 
@@ -49,15 +67,24 @@ public class MatchHelpScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         Image bgGameScreenImage = new Image("/icons/MatchScreenHelp.png");
         viewImageBG.setImage(bgGameScreenImage);
-        
+
         backImageView.setFitWidth(179);
         backImageView.setFitHeight(48);
         backBtn.setGraphic(backImageView);
     }
 
-    public void setCurretnUser(User user){
-        this.currentUser=user;
+    /**
+     * 
+     * @param currentUser Sets the current user to the parsed in user
+     */
+    public void setCurretnUser(User user) {
+        this.currentUser = user;
     }
+
+    /**
+     * Changes the image of the help button when the mouse exits it
+     * @param event 
+     */
     @FXML
     private void lightB(MouseEvent event) {
         backImageView.setFitWidth(179);
@@ -65,6 +92,10 @@ public class MatchHelpScreenController implements Initializable {
         backBtn.setGraphic(backImageView);
     }
 
+    /**
+     * Opens the match screen with the default setup and closes the home screen
+     * @param event 
+     */
     @FXML
     private void darkB(MouseEvent event) {
         DbackImageView.setFitWidth(179);
@@ -72,13 +103,16 @@ public class MatchHelpScreenController implements Initializable {
         backBtn.setGraphic(DbackImageView);
     }
 
+    /**
+     * Closes the match help screen when the back button is clicked
+     * @param event 
+     */
     @FXML
     private void backToMatch(ActionEvent event) {
         Stage homeStage = (Stage) backBtn.getScene().getWindow();
         homeStage.close();
         //Pane scene = new Pane(ChessApp.createContent());
-        
-        
+
         /*try {
             ChessApp brd = new ChessApp();
             Pane boardPane = brd.createContent();
@@ -96,5 +130,4 @@ public class MatchHelpScreenController implements Initializable {
         }*/
     }
 
-    
 }

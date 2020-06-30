@@ -116,84 +116,6 @@ public class RecursiveAI extends Thread {
     }
 
     /**
-     * Finds the best move looking n moves ahead for black
-     *
-     * @param position receives the board currently being assessed for moves
-     * @param depth receives how many moves ahead the AI must look
-     * @param alpha receives theoretical min for pruning
-     * @param beta receives theoretical max for pruning
-     * @param turn receives the player the move is being predicted for
-     * @return Returns the location for the best board for either white or black
-     */
-    public int minimax(Tile[][] position, int depth, int alpha, int beta, boolean turn) {
-        if (depth == 0) {
-            return calculateScore(printBoard(position));
-        }
-        ArrayList<RecursiveAIResult> moves = thinkMove(position, turn);
-        if (turn) {
-            int maxEval = -10000;
-            for (int i = 0; i < moves.size(); i++) {
-
-                int eval = minimax(moves.get(i).getRetBrd(), depth - 1, alpha, beta, true);
-                maxEval = max(maxEval, eval);
-                alpha = max(alpha, eval);
-                if (beta <= alpha) {
-
-                    break;
-                }
-            }
-            return maxEval;
-        } else {
-            int minEval = 100000;
-            for (int i = 0; i < moves.size(); i++) {
-
-                int eval = minimax(moves.get(i).getRetBrd(), depth - 1, alpha, beta, false);
-                if (depth == mainDepth && eval < minEval) {
-                    result = moves.get(i);
-
-                }
-                minEval = min(minEval, eval);
-                beta = min(beta, eval);
-
-                if (beta <= alpha) {
-
-                    break;
-                }
-            }
-
-            return minEval;
-        }
-    }
-
-    /**
-     * Finds the smaller of the two given inputs
-     *
-     * @param num1
-     * @param num2
-     * @return the smaller of the two given inputs
-     */
-    private int min(int num1, int num2) {
-        if (num1 < num2) {
-            return num1;
-        }
-        return num2;
-    }
-
-    /**
-     * Finds the larger of the two given inputs
-     *
-     * @param num1
-     * @param num2
-     * @return the larger of the two given inputs
-     */
-    private int max(int num1, int num2) {
-        if (num1 > num2) {
-            return num1;
-        }
-        return num2;
-    }
-
-    /**
      * Called by the AI player on the current board stored in order to decide
      * which move is best to make
      *
@@ -217,7 +139,7 @@ public class RecursiveAI extends Thread {
         MinimaxThread[] allThreads = new MinimaxThread[viableMoves.size()];
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("MiniMax " + i + "/" + viableMoves.size());
-            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, this, moveScores,1);
+            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, moveScores,1);
             allThreads[i] = temp;
             allThreads[i].start();
             System.out.println("ID " + allThreads[i].getId() + " State " + allThreads[i].getState());
@@ -742,6 +664,9 @@ public class RecursiveAI extends Thread {
         return result;
     }
 
+    /**
+     * Begins running this as a thread
+     */
     @Override
     public void run() {
         makeMove();

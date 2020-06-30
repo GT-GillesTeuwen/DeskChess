@@ -34,19 +34,39 @@ import javafx.stage.Stage;
  */
 public class SelectionHelpScreenController implements Initializable {
 
+    /**
+     * The imaqe view that is used to display the background image
+     */
     @FXML
     private ImageView viewImageBG;
 
+    /**
+     * The user currently signed in
+     */
     private User currentUser;
 
+    /**
+     * The image and image view of the un-hovered back button
+     */
     Image backIconImage = new Image("/icons/BackBtn.png");
     ImageView backImageView = new ImageView(backIconImage);
 
+    /**
+     * The image and image view of the hovered back button
+     */
     Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
     ImageView DbackImageView = new ImageView(DbackIconImage);
 
+    /**
+     * The image and image view of the annotated help screen
+     */
     Image homeHelpBgImage = new Image("/icons/HomeScreenHelp.png");
     ImageView homeHelpBgImageView = new ImageView(homeHelpBgImage);
+
+    /**
+     * The button used to return to the selection screen and close the help
+     * screen
+     */
     @FXML
     private Button backBtn;
 
@@ -63,10 +83,21 @@ public class SelectionHelpScreenController implements Initializable {
         backBtn.setGraphic(backImageView);
     }
 
+    /**
+     * Sets the current user to the user from the previous screen
+     *
+     * @param user The user from the previous screen
+     */
     public void setCurretnUser(User user) {
         this.currentUser = user;
     }
 
+    /**
+     * Sets the image used for the button to the light variant when the mouse
+     * exits it
+     *
+     * @param event
+     */
     @FXML
     private void lightB(MouseEvent event) {
         backImageView.setFitWidth(179);
@@ -74,6 +105,12 @@ public class SelectionHelpScreenController implements Initializable {
         backBtn.setGraphic(backImageView);
     }
 
+    /**
+     * Sets the image used for the button to the dark variant when the mouse
+     * enters it
+     *
+     * @param event
+     */
     @FXML
     private void darkB(MouseEvent event) {
         DbackImageView.setFitWidth(179);
@@ -81,8 +118,15 @@ public class SelectionHelpScreenController implements Initializable {
         backBtn.setGraphic(DbackImageView);
     }
 
+    /**
+     * Closes the help page and opens the saved game selection screen when the
+     * back button is clicked
+     *
+     * @param event
+     * @throws SQLException
+     */
     @FXML
-    private void backToMatch(ActionEvent event) throws SQLException {
+    private void backToSelectionScreen(ActionEvent event) throws SQLException {
         try {
             Stage homeStage = (Stage) backBtn.getScene().getWindow();
             homeStage.close();

@@ -28,11 +28,21 @@ import javafx.stage.Stage;
  * @author Client
  */
 public class WelcomeScreenFXMLDocumentController implements Initializable {
-
+    /**
+     * Button that allows the user to create a new account
+     */
     @FXML
-    private Button signUpbtn;
+    private Button signUpBtn;
+    
+    /**
+     * Button that allows the user to sign in to an existing account
+     */
     @FXML
-    private Button signInbtn;
+    private Button signInBtn;
+    
+    /**
+     * Image view used to display the logo
+     */
     @FXML
     private ImageView viewImage;
 
@@ -42,9 +52,15 @@ public class WelcomeScreenFXMLDocumentController implements Initializable {
         viewImage.setImage(image);
     }
 
+    /**
+     * Opens the sign up screen 
+     * Closes the welcome screen
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void openSignUpScreen(ActionEvent event) throws IOException {
-        Stage homeStage = (Stage) signInbtn.getScene().getWindow();
+        Stage homeStage = (Stage) signInBtn.getScene().getWindow();
         homeStage.close();
         FXMLLoader loadWelcomeScreen = new FXMLLoader(getClass().getResource("/deskchessSignUpscreen/signUpScreenFXML.fxml"));
         Parent root = (Parent) loadWelcomeScreen.load();
@@ -54,9 +70,15 @@ public class WelcomeScreenFXMLDocumentController implements Initializable {
         newStage.show();
     }
 
+    /**
+     * Opens the sign in screen 
+     * Closes the welcome screen
+     * @param event
+     * @throws IOException 
+     */
     @FXML
     private void openSignInscreen(ActionEvent event) throws IOException {
-        Stage homeStage = (Stage) signInbtn.getScene().getWindow();
+        Stage homeStage = (Stage) signInBtn.getScene().getWindow();
         homeStage.close();
         FXMLLoader loadWelcomeScreen = new FXMLLoader(getClass().getResource("/deskchessSignInScreen/signInScreenFXML.fxml"));
         Parent root = (Parent) loadWelcomeScreen.load();

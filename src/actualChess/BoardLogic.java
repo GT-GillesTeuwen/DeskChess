@@ -81,11 +81,13 @@ public class BoardLogic {
                                 int y0 = toBoard(piece.getOldY());
                                 if (piece.getColour() == PieceColour.BLACK) {
                                     switch (piece.getType()) {
+                                        //Marking the tiles that a black pawn can attack on the next move
                                         case PAWN:
                                             if (Math.abs(newx - x0) == 1 && newy - y0 == piece.getColour().moveDir) {
                                                 board[newx][newy].setBThreat(true);
                                             }
                                             break;
+                                        //Marking the tiles that a black rook can attack on the next move
                                         case ROOK:
                                             if (Math.abs(newx - x0) == 0 || Math.abs(newy - y0) == 0) {
                                                 if (isRookBlocked(piece, newx, newy, x0, y0) == false) {
@@ -94,6 +96,7 @@ public class BoardLogic {
 
                                             }
                                             break;
+                                        //Marking the tiles that a black knight can attack on the next move
                                         case KNIGHT:
                                             if (board[newx][newy].hasPiece() == false) {
                                                 if ((Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) || (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2)) {
@@ -106,11 +109,13 @@ public class BoardLogic {
                                                 }
                                             }
                                             break;
+                                        //Marking the tiles that a black bishop can attack on the next move
                                         case BISHOP:
                                             if (Math.abs(newx - x0) == Math.abs(newy - y0) && isBishopBlocked(piece, newx, newy, x0, y0) == false) {
                                                 board[newx][newy].setBThreat(true);
                                             }
                                             break;
+                                        //Marking the tiles that a black queen can attack on the next move
                                         case QUEEN:
                                             if ((Math.abs(newx - x0) == Math.abs(newy - y0) || Math.abs(newx - x0) == 0 || Math.abs(newy - y0) == 0)) {
                                                 if (isBishopBlocked(piece, newx, newy, x0, y0) == false && isRookBlocked(piece, newx, newy, x0, y0) == false) {
@@ -118,6 +123,7 @@ public class BoardLogic {
                                                 }
                                             }
                                             break;
+                                        //Marking the tiles that a black king can attack on the next move
                                         case KING:
                                             if (piece.getType() == PieceType.KING) {
                                                 if (Math.abs(newx - x0) < 2 && Math.abs(newy - y0) < 2) {
@@ -130,11 +136,13 @@ public class BoardLogic {
                                     }
                                 } else if (piece.getColour() == PieceColour.WHITE) {
                                     switch (piece.getType()) {
+                                        //Marking the tiles that a white pawn can attack on the next move
                                         case PAWN:
                                             if (Math.abs(newx - x0) == 1 && newy - y0 == piece.getColour().moveDir) {
                                                 board[newx][newy].setWThreat(true);
                                             }
                                             break;
+                                        //Marking the tiles that a white rook can attack on the next move
                                         case ROOK:
                                             if (Math.abs(newx - x0) == 0 || Math.abs(newy - y0) == 0) {
                                                 if (isRookBlocked(piece, newx, newy, x0, y0) == false) {
@@ -143,6 +151,7 @@ public class BoardLogic {
 
                                             }
                                             break;
+                                        //Marking the tiles that a white knight can attack on the next move
                                         case KNIGHT:
                                             if (board[newx][newy].hasPiece() == false) {
                                                 if ((Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) || (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2)) {
@@ -155,11 +164,13 @@ public class BoardLogic {
                                                 }
                                             }
                                             break;
+                                        //Marking the tiles that a white bishop can attack on the next move
                                         case BISHOP:
                                             if (Math.abs(newx - x0) == Math.abs(newy - y0) && isBishopBlocked(piece, newx, newy, x0, y0) == false) {
                                                 board[newx][newy].setWThreat(true);
                                             }
                                             break;
+                                        //Marking the tiles that a white queen can attack on the next move
                                         case QUEEN:
                                             if ((Math.abs(newx - x0) == Math.abs(newy - y0) || Math.abs(newx - x0) == 0 || Math.abs(newy - y0) == 0)) {
                                                 if (isBishopBlocked(piece, newx, newy, x0, y0) == false && isRookBlocked(piece, newx, newy, x0, y0) == false) {
@@ -167,11 +178,10 @@ public class BoardLogic {
                                                 }
                                             }
                                             break;
+                                        //Marking the tiles that a white king can attack on the next move
                                         case KING:
-                                            if (piece.getType() == PieceType.KING) {
-                                                if (Math.abs(newx - x0) < 2 && Math.abs(newy - y0) < 2) {
-                                                    board[newx][newy].setWThreat(true);
-                                                }
+                                            if (Math.abs(newx - x0) < 2 && Math.abs(newy - y0) < 2) {
+                                                board[newx][newy].setWThreat(true);
                                             }
                                             break;
                                         default:
@@ -203,7 +213,8 @@ public class BoardLogic {
      *
      */
     public int pawnMove(Piece piece, int newx, int newy, int x0, int y0) {
-        
+
+        //Pawns can only move forward if they are not capturing another piece
         if (board[newx][newy].hasPiece() == false) {
             if (Math.abs(newx - x0) == 0 && (newy - y0) == piece.getColour().moveDir) {
                 return 1;
@@ -216,6 +227,7 @@ public class BoardLogic {
             }
 
         }
+        //Pawns can only capture other pieces diagonally
         if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
             if (Math.abs(newx - x0) == 1 && newy - y0 == piece.getColour().moveDir) {
                 return 2;
@@ -239,12 +251,13 @@ public class BoardLogic {
      *
      */
     public int rookMove(Piece piece, int newx, int newy, int x0, int y0) {
-
+        //Checking if movement is only horizontal or only vertical
         if (Math.abs(newx - x0) == 0 || Math.abs(newy - y0) == 0) {
-
+            //Returning 1 on move
             if (board[newx][newy].hasPiece() == false) {
                 return 1;
             }
+            //Returning 2 on capture
             if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
 
                 return 2;
@@ -268,13 +281,14 @@ public class BoardLogic {
      *
      */
     public int knightMove(Piece piece, int newx, int newy, int x0, int y0) {
-        if (board[newx][newy].hasPiece() == false) {
-            if ((Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) || (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2)) {
+
+        //Checking if the move is legal (in the "L" shape")
+        if ((Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) || (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2)) {
+            //Returning 1 on a move
+            if (board[newx][newy].hasPiece() == false) {
                 return 1;
-            }
-        }
-        if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
-            if ((Math.abs(newx - x0) == 2 && Math.abs(newy - y0) == 1) || (Math.abs(newx - x0) == 1 && Math.abs(newy - y0) == 2)) {
+            } //Returning 2 on capture
+            else if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
                 return 2;
             }
         }
@@ -296,12 +310,13 @@ public class BoardLogic {
      *
      */
     public int bishopMove(Piece piece, int newx, int newy, int x0, int y0) {
-
+        //Checking if the movment is only diagnonal
         if (Math.abs(newx - x0) == Math.abs(newy - y0)) {
+            //Returning 1 on a move
             if (board[newx][newy].hasPiece() == false) {
                 return 1;
-            }
-            if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
+            } //Retruning 2 on a capture
+            else if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
 
                 return 2;
             }
@@ -325,11 +340,13 @@ public class BoardLogic {
      *
      */
     public int queenMove(Piece piece, int newx, int newy, int x0, int y0) {
+        //Checking if the movement is only diagonal or only vertical or only horizontal
         if (Math.abs(newx - x0) == Math.abs(newy - y0) || Math.abs(newx - x0) == 0 || Math.abs(newy - y0) == 0) {
+            //Returning 1 on a move
             if (board[newx][newy].hasPiece() == false) {
                 return 1;
-            }
-            if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
+            } //Returning 2 on a capture
+            else if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
                 return 2;
             }
         }
@@ -351,11 +368,14 @@ public class BoardLogic {
      *
      */
     public int kingMove(Piece piece, int newx, int newy, int x0, int y0) {
+        //Checking if the movement is only diagonaly, vertical or horizontal by one space
         if (Math.abs(newx - x0) < 2 && Math.abs(newy - y0) < 2) {
+            //Returning 1 on a move
             if (board[newx][newy].hasPiece() == false) {
                 return 1;
-            }
-            if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
+            } 
+            //Returning 2 on a capture
+            else if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
                 return 2;
             }
         }
@@ -426,6 +446,7 @@ public class BoardLogic {
     /**
      * Prints a representation of the board in terms of who can attack which
      * tile
+     * Used for debugging
      */
     public void printThreats() {
         for (int i = 0; i < 8; i++) {

@@ -11,6 +11,6 @@
     </stylesheets>
    <children>
       <ImageView fx:id="viewImageBG" fitHeight="806.0" fitWidth="1286.0" layoutX="-4.0" layoutY="-4.0" pickOnBounds="true" x="1.0" y="1.0" />
-      <Button fx:id="backBtn" layoutX="1100.0" layoutY="739.0" mnemonicParsing="false" onAction="#backToMatch" onMouseEntered="#darkB" onMouseExited="#lightB" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #00000000;" />
+      <Button fx:id="backBtn" layoutX="1100.0" layoutY="739.0" mnemonicParsing="false" onAction="#backToSelectionScreen" onMouseEntered="#darkB" onMouseExited="#lightB" prefHeight="49.0" prefWidth="143.0" style="-fx-background-color: #00000000;" />
    </children>
 </AnchorPane>
