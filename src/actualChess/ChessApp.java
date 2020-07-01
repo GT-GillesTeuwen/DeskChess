@@ -1027,6 +1027,11 @@ public class ChessApp extends Application {
         return score;
     }
 
+    /**
+     * Creates a board, tiles and pieces in static positions to be displayed
+     * @param brd The configuration of the displayed board
+     * @return Returns a pane with the board, tiles and pieces for display purposes
+     */
     public Pane display(String brd) {
 
         String[] loadedBoard = brd.split("#");
@@ -1104,7 +1109,7 @@ public class ChessApp extends Application {
     }
 
     /**
-     * @return Returns the group that holds the piece icons so that other objects can remove them
+     * @return Returns the group that holds the piece icons so that other objects can remove/add to them
      */
     public Group getPieceGroup() {
         return pieceGroup;

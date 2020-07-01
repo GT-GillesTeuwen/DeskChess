@@ -34,36 +34,32 @@ public class RecursiveAI extends Thread {
      */
     private int score;
 
+    /**
+     * Holds the move the computer has decided to make
+     */
     private RecursiveAIResult result;
-    private int mainDepth = 3;
+    
+    /**
+     * An array list holding all the possible moves the AI could make
+     */
     private ArrayList<RecursiveAIResult> viableMoves;
+    
+    /**
+     * A ChessApp allowing the AI to communicate with the chess game
+     */
     private ChessApp chessApp;
+    
+    /**
+     * The Match screen controller allowing the AI to communicate with the Match UI
+     */
     private MatchScreenController screen;
 
     /**
-     * Constructor with no parameters Creates a new RecursiveAI (used if the
-     * board has not been created yet)
+     * Constructor, Creates a new RecursiveAI linking it to the screen and ChessApp
      */
     public RecursiveAI(ChessApp chessApp, MatchScreenController screen) {
         this.chessApp = chessApp;
         this.screen = screen;
-
-    }
-
-    /**
-     * Creates a new RecusiveAI with the current board set to be evaluated and a
-     * printed board to assign a score to
-     *
-     * @param currentBoard Receives the current board to be evaluated for the
-     * best move
-     * @param brdPrint Receives a String version of the board to assign a score
-     * to
-     */
-    public RecursiveAI(Tile[][] currentBoard, String brdPrint, ChessApp chessApp) {
-        this.currentBoard = currentBoard;
-        this.stringVersionOfBoard = brdPrint.replace("\n", "");
-        this.score = calculateScore(this.stringVersionOfBoard);
-        this.chessApp = chessApp;
 
     }
 
@@ -117,10 +113,8 @@ public class RecursiveAI extends Thread {
 
     /**
      * Called by the AI player on the current board stored in order to decide
-     * which move is best to make
+     * which move is best to make, then makes that move.
      *
-     * @return Returns a RecursiveAIResult which contains the coordinates of the
-     * piece to be moved and where it is being moved to
      */
     public void makeMove() {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
@@ -135,7 +129,8 @@ public class RecursiveAI extends Thread {
         int bestMove = 0;
 
         int minScore = 10000000;
-        double progress = 0.0;
+        
+        //Creating threads that look n moves ahead of each viable move and adding them to the array
         MinimaxThread[] allThreads = new MinimaxThread[viableMoves.size()];
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("MiniMax " + i + "/" + viableMoves.size());
@@ -144,28 +139,29 @@ public class RecursiveAI extends Thread {
             allThreads[i].start();
             System.out.println("ID " + allThreads[i].getId() + " State " + allThreads[i].getState());
         }
+        
         boolean flag = false;
+        
+        //Waiting for threads to finish
         while (flag == false) {
-            //int count = 0;
             flag = true;
             for (int i = 0; i < allThreads.length; i++) {
-                //System.out.println("ID " + allThreads[i].getId() + " State " + allThreads[i].getState());
+                
                 if (allThreads[i].getState() == Thread.State.RUNNABLE) {
-                    //count++;
+                    
                     flag = false;
                 }
             }
-            //System.out.println("Thread " + count + "/" + allThreads.length);
+            
         }
-        for (int i = 0; i < viableMoves.size(); i++) {
-            System.out.println("Sweep " + i + "/" + viableMoves.size());
+        //FInding the best move/moves and selecting one.
+        for (int i = 0; i < viableMoves.size(); i++) {           
             if (moveScores[i] < minScore) {
                 bestMove = i;
                 minScore = moveScores[i];
             }
         }
         for (int i = 0; i < viableMoves.size(); i++) {
-            System.out.println("Set " + i + "/" + viableMoves.size());
             if (moveScores[i] == minScore) {
                 good.add(i);
             }
@@ -178,13 +174,10 @@ public class RecursiveAI extends Thread {
             result = new RecursiveAIResult(currentBoard, 0, 0, 0, 0, MoveType.NONE, true);
         }
 
-        //return new RecursiveAIResult(currentBoard, 0, 0, 0, 0, MoveType.NONE, true);
-        System.out.println("Here");
+        //Making the move on the ChessApp
         Tile[][] checkBrd = new Tile[8][8];
-        BoardLogic bl = new BoardLogic(arrayCopy(currentBoard, checkBrd));
-        System.out.println("here 1");
+        BoardLogic bl = new BoardLogic(arrayCopy(currentBoard, checkBrd));       
         Piece oppPiece = chessApp.getBoard()[result.getOldX()][result.getOldy()].getPiece();
-        System.out.println("here 2");
         dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         date = new Date();
         System.out.println(dateFormat.format(date));
@@ -665,7 +658,7 @@ public class RecursiveAI extends Thread {
     }
 
     /**
-     * Begins running this as a thread
+     * Begins running Object this as a thread
      */
     @Override
     public void run() {

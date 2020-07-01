@@ -32,7 +32,7 @@ import javafx.stage.Stage;
 public class HomeHelpScreenController implements Initializable {
 
     /**'
-     * Imageview that holds the background image
+     * Image view that holds the background image
      */
     @FXML
     private ImageView viewImageBG;
@@ -43,25 +43,21 @@ public class HomeHelpScreenController implements Initializable {
     private User currentUser;
     
     /**
-     * The image and imageview for the back button
+     * The image and image view for the back button
      */
     Image backIconImage = new Image("/icons/BackBtn.png");
     ImageView backImageView = new ImageView(backIconImage);
     
     /**
-     * The image and imageview for the hovered back button
+     * The image and image view for the hovered back button
      */
-    Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
-    ImageView DbackImageView = new ImageView(DbackIconImage);
+    Image backIconImageDark = new Image("/icons/DarkBackBtn.png");
+    ImageView backImageViewDark = new ImageView(backIconImageDark);
     
-    /**
-     * The image and imageview for the help button
-     */
-    Image homeHelpBgImage = new Image("/icons/HomeScreenHelp.png");
-    ImageView homeHelpBgImageView = new ImageView(homeHelpBgImage);
+  
     @FXML
     /**
-     * The button that allows the user to return
+     * The button that allows the user to return to the home screen
      */
     private Button backBtn;
 
@@ -91,7 +87,7 @@ public class HomeHelpScreenController implements Initializable {
      * @param event 
      */
     @FXML
-    private void lightB(MouseEvent event) {
+    private void lightBtn(MouseEvent event) {
         backImageView.setFitWidth(179);
         backImageView.setFitHeight(48);
         backBtn.setGraphic(backImageView);
@@ -102,10 +98,10 @@ public class HomeHelpScreenController implements Initializable {
      * @param event 
      */
     @FXML
-    private void darkB(MouseEvent event) {
-        DbackImageView.setFitWidth(179);
-        DbackImageView.setFitHeight(48);
-        backBtn.setGraphic(DbackImageView);
+    private void darkBtn(MouseEvent event) {
+        backImageViewDark.setFitWidth(179);
+        backImageViewDark.setFitHeight(48);
+        backBtn.setGraphic(backImageViewDark);
     }
 
     @FXML

@@ -54,8 +54,14 @@ public class User {
      */
     private String err;
 
-    
+    /**
+     * Integer that hold the number of times this user has won
+     */
     private int wins;
+    
+    /**
+     * Integer that hold the number of times this user has lost
+     */
     private int losses;
     /**
      * Initialises a Database Manager that facilitates communication with the
@@ -85,8 +91,10 @@ public class User {
     }
 
     /**
-     * Creates a new user to be checked against the text file of existing users
+     * Creates a new user to be checked against the database table of existing users
      * and associated passwords
+     * 
+     * Fetches wins and losses from database
      *
      * @param userName Receives the username of the account that the user wants
      * to sign in to
@@ -203,7 +211,7 @@ public class User {
     }
     
     /**
-     * Adds a win to the user
+     * Adds a win to the user in the database file
      * @throws SQLException 
      */
     public void addWin() throws SQLException{
@@ -212,7 +220,7 @@ public class User {
     }
     
     /**
-     * Adds a loss to the user
+     * Adds a loss to the user in the database file
      * @throws SQLException 
      */
     public void addLoss() throws SQLException{
@@ -222,7 +230,7 @@ public class User {
 
     /**
      * 
-     * @return Returns the total wins of the user
+     * @return Returns the total wins of the user from the User object
      */
     public int getWins() {
         return wins;
@@ -230,7 +238,7 @@ public class User {
 
     /**
      * 
-     * @return Returns the total losses of the user
+     * @return Returns the total losses of the user from the User object
      */
     public int getLosses() {
         return losses;
