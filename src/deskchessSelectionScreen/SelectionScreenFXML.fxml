@@ -16,7 +16,7 @@
          <contextMenu>
             <ContextMenu>
               <items>
-                <MenuItem fx:id="deleteBTN" mnemonicParsing="false" onAction="#DeleteGame" text="Delete" />
+                <MenuItem fx:id="deleteBTN" mnemonicParsing="false" onAction="#deleteGame" text="Delete" />
               </items>
             </ContextMenu>
          </contextMenu></TableView>

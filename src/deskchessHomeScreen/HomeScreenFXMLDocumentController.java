@@ -40,7 +40,7 @@ import javafx.stage.Stage;
 public class HomeScreenFXMLDocumentController implements Initializable {
 
     /**
-     * The imageview that holds the background image
+     * The image view that holds the background image
      */
     @FXML
     private ImageView viewImageBG;
@@ -58,52 +58,42 @@ public class HomeScreenFXMLDocumentController implements Initializable {
     private Button helpBtn;
 
     /**
-     * The current user using the app
+     * The current user currently signed in
      */
     private User currentUser;
 
    
     
     /**
-     * The image and imageview of the new game button
+     * The image and image view of the new game button
      */
     Image newGameIconImage = new Image("/icons/NewGamebtn.png");
     ImageView newGameImageView = new ImageView(newGameIconImage);
 
     /**'
-     * The image and imageview of the continue game button
+     * The image and image view of the continue game button
      */
     Image continueGameIconImage = new Image("/icons/ContinueGamebtn.png");
     ImageView continueGameImageView = new ImageView(continueGameIconImage);
 
     /**'
-     * The image and imageview of the help button
+     * The image and image view of the help button
      */
     Image helpIconImage = new Image("/icons/helpBtn.png");
     ImageView helpImageView = new ImageView(helpIconImage);
 
     /**'
-     * The image and imageview of the toggled help button
+     * The image and image view of the toggled help button
      */
     Image helpTogIconImage = new Image("/icons/helpBtnTog.png");
     ImageView helpTogImageView = new ImageView(helpTogIconImage);
-
-    /**
-     * The pixel width and height of a tile
-     */
-    public static final int TILE_SIZE = 65;
-    
-    /**
-     * The dimensions of the board
-     */
-    public static final int WIDTH = 8;
-    public static final int HEIGHT = 8;
 
     /**
     * A label that displays the users total wins  
     */
     @FXML
     private Label winsLbl;
+    
     /**
      * A label that displays the users total losses
      */
@@ -290,7 +280,7 @@ public class HomeScreenFXMLDocumentController implements Initializable {
 
     
     /**
-     *  Opens the selection screen with and closes the home screen
+     * Opens the selection screen with and closes the home screen
      * @param event 
      */
     @FXML

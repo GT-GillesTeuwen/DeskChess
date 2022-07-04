@@ -32,21 +32,21 @@ public class MatchHelpScreenController implements Initializable {
     private ImageView viewImageBG;
 
     /**
-     * The current user using the app
+     * The user currently signed in
      */
     private User currentUser;
 
     /**'
-     * The image and imageview of the help button
+     * The image and image view of the back button
      */
     Image backIconImage = new Image("/icons/BackBtn.png");
     ImageView backImageView = new ImageView(backIconImage);
     
     /**'
-     * The image and imageview of the toggled help button
+     * The image and image view of the toggled help button
      */
-    Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
-    ImageView DbackImageView = new ImageView(DbackIconImage);
+    Image backIconImageDark = new Image("/icons/DarkBackBtn.png");
+    ImageView backImageViewDark = new ImageView(backIconImageDark);
 
     /**
      * The image and image view of the page's background
@@ -82,25 +82,25 @@ public class MatchHelpScreenController implements Initializable {
     }
 
     /**
-     * Changes the image of the help button when the mouse exits it
+     * Changes the image of the back button when the mouse exits it
      * @param event 
      */
     @FXML
-    private void lightB(MouseEvent event) {
+    private void lightBackBtn(MouseEvent event) {
         backImageView.setFitWidth(179);
         backImageView.setFitHeight(48);
         backBtn.setGraphic(backImageView);
     }
 
     /**
-     * Opens the match screen with the default setup and closes the home screen
+     * Changes the image of the back button when the mouse exits it
      * @param event 
      */
     @FXML
-    private void darkB(MouseEvent event) {
-        DbackImageView.setFitWidth(179);
-        DbackImageView.setFitHeight(48);
-        backBtn.setGraphic(DbackImageView);
+    private void darkBackBtn(MouseEvent event) {
+        backImageViewDark.setFitWidth(179);
+        backImageViewDark.setFitHeight(48);
+        backBtn.setGraphic(backImageViewDark);
     }
 
     /**

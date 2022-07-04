@@ -28,24 +28,30 @@ import javafx.stage.Stage;
  * @author Client
  */
 public class WelcomeScreenFXMLDocumentController implements Initializable {
+
     /**
      * Button that allows the user to create a new account
      */
     @FXML
     private Button signUpBtn;
-    
+
     /**
      * Button that allows the user to sign in to an existing account
      */
     @FXML
     private Button signInBtn;
-    
+
     /**
      * Image view used to display the logo
      */
     @FXML
     private ImageView viewImage;
 
+    /**
+     * Initialized the Controller Class
+     * @param url
+     * @param rb
+     */
     public void initialize(URL url, ResourceBundle rb) {
         Image image = new Image("/icons/Logo.PNG");
 
@@ -53,10 +59,10 @@ public class WelcomeScreenFXMLDocumentController implements Initializable {
     }
 
     /**
-     * Opens the sign up screen 
-     * Closes the welcome screen
+     * Opens the sign up screen Closes the welcome screen
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void openSignUpScreen(ActionEvent event) throws IOException {
@@ -71,10 +77,10 @@ public class WelcomeScreenFXMLDocumentController implements Initializable {
     }
 
     /**
-     * Opens the sign in screen 
-     * Closes the welcome screen
+     * Opens the sign in screen Closes the welcome screen
+     *
      * @param event
-     * @throws IOException 
+     * @throws IOException
      */
     @FXML
     private void openSignInscreen(ActionEvent event) throws IOException {

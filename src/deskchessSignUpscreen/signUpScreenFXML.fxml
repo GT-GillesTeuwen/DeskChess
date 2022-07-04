@@ -8,10 +8,10 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" fx:id="Pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="378.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deskchessSignUpscreen.SignUpScreenFXMLController">
+<AnchorPane id="AnchorPane" fx:id="pane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="378.0" prefWidth="536.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="deskchessSignUpscreen.SignUpScreenFXMLController">
     <children>
-        <PasswordField fx:id="passwordFld" layoutX="177.0" layoutY="144.0" prefHeight="25.0" prefWidth="216.0" />
         <TextField fx:id="userNameFld" layoutX="177.0" layoutY="103.0" prefHeight="25.0" prefWidth="216.0" />
+        <PasswordField fx:id="passwordFld" layoutX="177.0" layoutY="144.0" prefHeight="25.0" prefWidth="216.0" />
         <PasswordField fx:id="confirmPasswordFld" layoutX="177.0" layoutY="184.0" prefHeight="25.0" prefWidth="216.0" />
         <TextField fx:id="emailFld" layoutX="177.0" layoutY="224.0" prefHeight="25.0" prefWidth="216.0" />
         <Label fx:id="userNameLbl" layoutX="105.0" layoutY="106.0" text="User Name:">

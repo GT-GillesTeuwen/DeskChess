@@ -62,7 +62,7 @@ public class MatchScreenController implements Initializable {
     private String gameName;
 
     /**
-     * The imageview that holds the background image
+     * The image view that holds the background image
      */
     @FXML
     private ImageView MatchBG;
@@ -91,37 +91,37 @@ public class MatchScreenController implements Initializable {
     private ChessApp game;
 
     /**
-     * The imageview and image of the non-toggled resign button
+     * The image view and image of the non-toggled resign button
      */
     Image resignIconImage = new Image("/icons/Resignbtn.png");
     ImageView resignImageView = new ImageView(resignIconImage);
 
     /**
-     * The imageview and image of the tooggled resign button
+     * The image view and image of the toggled resign button
      */
     Image resignDarkIconImage = new Image("/icons/Resignbtn(Hover).png");
     ImageView resignDarkImageView = new ImageView(resignDarkIconImage);
 
     /**
-     * The imageview and image of the non-toggled save and quit button
+     * The image view and image of the non-toggled save and quit button
      */
     Image saveAndQuitIconImage = new Image("/icons/saveAndQuitbtn.png");
     ImageView saveAndQuitImageView = new ImageView(saveAndQuitIconImage);
 
     /**
-     * The imageview and image of the toggled save and quit button
+     * The image view and image of the toggled save and quit button
      */
     Image saveAndQuitDarkIconImage = new Image("/icons/saveAndQuitbtn(Hover).png");
     ImageView saveAndQuitDarkImageView = new ImageView(saveAndQuitDarkIconImage);
 
     /**
-     * The imageview and image of the toggled help button
+     * The image view and image of the toggled help button
      */
     Image helpIconImage = new Image("/icons/helpBtn.png");
     ImageView helpImageView = new ImageView(helpIconImage);
 
     /**
-     * The imageview and image of the non-toggled help button
+     * The image view and image of the non-toggled help button
      */
     Image helpTogIconImage = new Image("/icons/helpBtnTog.png");
     ImageView helpTogImageView = new ImageView(helpTogIconImage);
@@ -185,7 +185,7 @@ public class MatchScreenController implements Initializable {
      * @param event
      */
     @FXML
-    private void resignbtnLight(MouseEvent event) {
+    private void resignBtnLight(MouseEvent event) {
         resignBtn.setGraphic(resignImageView);
     }
 
@@ -194,7 +194,7 @@ public class MatchScreenController implements Initializable {
      * @param event
      */
     @FXML
-    private void resignbtnDark(MouseEvent event) {
+    private void resignBtnDark(MouseEvent event) {
         resignBtn.setGraphic(resignDarkImageView);
     }
 

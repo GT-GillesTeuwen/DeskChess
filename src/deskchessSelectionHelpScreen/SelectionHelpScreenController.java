@@ -54,8 +54,8 @@ public class SelectionHelpScreenController implements Initializable {
     /**
      * The image and image view of the hovered back button
      */
-    Image DbackIconImage = new Image("/icons/DarkBackBtn.png");
-    ImageView DbackImageView = new ImageView(DbackIconImage);
+    Image backIconImageDark = new Image("/icons/DarkBackBtn.png");
+    ImageView backImageViewDark = new ImageView(backIconImageDark);
 
     /**
      * The image and image view of the annotated help screen
@@ -99,7 +99,7 @@ public class SelectionHelpScreenController implements Initializable {
      * @param event
      */
     @FXML
-    private void lightB(MouseEvent event) {
+    private void lightBackBtn(MouseEvent event) {
         backImageView.setFitWidth(179);
         backImageView.setFitHeight(48);
         backBtn.setGraphic(backImageView);
@@ -112,10 +112,10 @@ public class SelectionHelpScreenController implements Initializable {
      * @param event
      */
     @FXML
-    private void darkB(MouseEvent event) {
-        DbackImageView.setFitWidth(179);
-        DbackImageView.setFitHeight(48);
-        backBtn.setGraphic(DbackImageView);
+    private void darkBackBtn(MouseEvent event) {
+        backImageViewDark.setFitWidth(179);
+        backImageViewDark.setFitHeight(48);
+        backBtn.setGraphic(backImageViewDark);
     }
 
     /**

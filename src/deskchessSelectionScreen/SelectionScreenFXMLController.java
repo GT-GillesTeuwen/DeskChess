@@ -351,7 +351,7 @@ public class SelectionScreenFXMLController implements Initializable {
      * @throws SQLException
      */
     @FXML
-    private void DeleteGame(ActionEvent event) throws SQLException {
+    private void deleteGame(ActionEvent event) throws SQLException {
         Board board = loadGamesTbl.getSelectionModel().getSelectedItem();
         DBManager db = new DBManager();
         System.out.println(board.getName() + " " + board.getUser());

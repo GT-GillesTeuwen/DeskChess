@@ -215,15 +215,13 @@ public class BoardLogic {
     public int pawnMove(Piece piece, int newx, int newy, int x0, int y0) {
 
         //Pawns can only move forward if they are not capturing another piece
-        if (board[newx][newy].hasPiece() == false) {
-            if (Math.abs(newx - x0) == 0 && (newy - y0) == piece.getColour().moveDir) {
+        if (board[newx][newy].hasPiece() == false && Math.abs(newx - x0) == 0) {
+            if ((newy - y0) == piece.getColour().moveDir) {
                 return 1;
-            }
-            if (Math.abs(newx - x0) == 0 && (newy - y0) == piece.getColour().moveDir * 2 && piece.getMoved() == false) {
-                if ((piece.getColour() == PieceColour.WHITE && y0 == 6) || (piece.getColour() == PieceColour.BLACK && y0 == 1)) {
-                    return 1;
-                }
-
+            } else if ((newy - y0) == piece.getColour().moveDir * 2
+                    && ((piece.getColour() == PieceColour.WHITE && y0 == 6)
+                    || (piece.getColour() == PieceColour.BLACK && y0 == 1))) {
+                return 1;
             }
 
         }
@@ -258,8 +256,8 @@ public class BoardLogic {
                 return 1;
             }
             //Returning 2 on capture
-            if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
-
+            if (board[newx][newy].hasPiece() == true
+                    && board[newx][newy].getPiece().getColour() != piece.getColour()) {
                 return 2;
             }
         }
@@ -317,7 +315,6 @@ public class BoardLogic {
                 return 1;
             } //Retruning 2 on a capture
             else if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
-
                 return 2;
             }
         }
@@ -373,8 +370,7 @@ public class BoardLogic {
             //Returning 1 on a move
             if (board[newx][newy].hasPiece() == false) {
                 return 1;
-            } 
-            //Returning 2 on a capture
+            } //Returning 2 on a capture
             else if (board[newx][newy].hasPiece() == true && board[newx][newy].getPiece().getColour() != piece.getColour()) {
                 return 2;
             }
@@ -445,8 +441,7 @@ public class BoardLogic {
 
     /**
      * Prints a representation of the board in terms of who can attack which
-     * tile
-     * Used for debugging
+     * tile Used for debugging
      */
     public void printThreats() {
         for (int i = 0; i < 8; i++) {
@@ -475,14 +470,11 @@ public class BoardLogic {
     public boolean checkBlackCheck() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (board[j][i].hasPiece() == true) {
-                    if (board[j][i].getPiece().getType() == PieceType.KING) {
-                        if (board[j][i].getPiece().getColour() == PieceColour.BLACK) {
-                            if (board[j][i].getWThreat() == true) {
-                                return true;
-                            }
-                        }
-                    }
+                if (board[j][i].hasPiece() == true
+                        && board[j][i].getPiece().getType() == PieceType.KING
+                        && board[j][i].getPiece().getColour() == PieceColour.BLACK
+                        && board[j][i].getWThreat() == true) {
+                    return true;
                 }
             }
         }
@@ -498,14 +490,11 @@ public class BoardLogic {
     public boolean checkWhiteCheck() {
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
-                if (board[j][i].hasPiece() == true) {
-                    if (board[j][i].getPiece().getType() == PieceType.KING) {
-                        if (board[j][i].getPiece().getColour() == PieceColour.WHITE) {
-                            if (board[j][i].getBThreat() == true) {
-                                return true;
-                            }
-                        }
-                    }
+                if (board[j][i].hasPiece() == true
+                        && board[j][i].getPiece().getType() == PieceType.KING
+                        && board[j][i].getPiece().getColour() == PieceColour.WHITE
+                        && board[j][i].getBThreat() == true) {
+                    return true;
                 }
             }
         }
@@ -529,23 +518,21 @@ public class BoardLogic {
      */
     public boolean checkCheckBlock(Piece piece, int newx, int newy, int x0, int y0, boolean turn) {
         Piece tempPiece = null;
+
         if (board[newx][newy].hasPiece() == true) {
             tempPiece = board[newx][newy].getPiece();
         }
-        //piece.move(newx, newy);
+
         board[x0][y0].setPiece(null);
         board[newx][newy].setPiece(piece);
         setTilesThreat(board);
 
         if ((checkBlackCheck() == true && turn == false) || (checkWhiteCheck() == true && turn == true)) {
-            //piece.move(x0, y0);
             board[newx][newy].setPiece(tempPiece);
             board[x0][y0].setPiece(piece);
             setTilesThreat(board);
             return false;
-
         } else {
-            //piece.move(x0, y0);
             board[newx][newy].setPiece(tempPiece);
             board[x0][y0].setPiece(piece);
             setTilesThreat(board);

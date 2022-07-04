@@ -30,8 +30,15 @@ public class UnitTestController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        createBoard("rnbqkbnr#pppppppp#00QQ0000#00000000#00000000#00000000#PPPPPPPP#RNBQKBNR");
-        changeBoard("rnbqkbnr#pppppppp#00000000#00000000#00000000#00000000#PPPPPPPP#RNBQKBNR");
+        createBoard("Q00r0000"
+                +  "#00000000"
+                +  "#00000000"
+                +  "#00000000"
+                +  "#00000000"
+                +  "#00000000"
+                +  "#000K0000"
+                +  "#00000000");
+        //changeBoard("rnbqkbnr#pppppppp#00q00000#00000000#00000000#00000000#PPPPPPPP#RNBQKBNR");
         
 
     }
@@ -42,7 +49,9 @@ public class UnitTestController implements Initializable {
     }
 
     public void clearBoard() {
-        anchorPane.getChildren().remove(0);
+        anchorPane.getChildren().remove(app);
+        anchorPane.getChildren().removeAll();
+        
     }
     
     public void changeBoard(String board){

@@ -59,7 +59,7 @@ public class NamingScreenFXMLController implements Initializable {
     private DBManager db = new DBManager();
 
     /**
-     * The ChessApp the user was playing in Used to get position and save
+     * The ChessApp the user was playing in. Used to get position and save
      */
     private ChessApp game;
 

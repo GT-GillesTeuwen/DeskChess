@@ -54,6 +54,7 @@ public class MinimaxThread extends Thread {
 
     /**
      * Begins running the thread
+     * Begins the minimax operation
      */
     @Override
     public void run() {
@@ -75,7 +76,7 @@ public class MinimaxThread extends Thread {
      * @return Returns the potential maximum, minimum or final score of a given
      * position
      */
-    public int minimax(Tile[][] positionBrd, int depth, int alpha, int beta, boolean turn) {
+    private int minimax(Tile[][] positionBrd, int depth, int alpha, int beta, boolean turn) {
         Tile[][] position = new Tile[8][8];
         position = arrayCopy(positionBrd, position);
         if (depth == 0) {
@@ -282,7 +283,7 @@ public class MinimaxThread extends Thread {
      * @param aheadTurn Receives the turn on the next move
      * @return
      */
-    public ArrayList<RecursiveAIResult> thinkMove(Tile[][] workingBrd, boolean aheadTurn) {
+    private ArrayList<RecursiveAIResult> thinkMove(Tile[][] workingBrd, boolean aheadTurn) {
         boolean thinkAheadturn = aheadTurn;
         int compMoveOldX = 0;
         int compMoveOldY = 0;

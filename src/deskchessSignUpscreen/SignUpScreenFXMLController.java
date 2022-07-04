@@ -32,28 +32,24 @@ import javafx.stage.Stage;
 public class SignUpScreenFXMLController implements Initializable {
 
     /**
-     * '
      * Label prompting the user to enter their chosen username
      */
     @FXML
     private Label userNameLbl;
 
     /**
-     * '
      * Label prompting the user to enter their chosen password
      */
     @FXML
     private Label passwordLbl;
 
     /**
-     * '
      * Label prompting the user to confirm their chosen password
      */
     @FXML
     private Label confirmPasswordLbl;
 
     /**
-     * '
      * Label prompting the user to enter their chosen email address
      */
     @FXML
@@ -87,7 +83,7 @@ public class SignUpScreenFXMLController implements Initializable {
      * Anchor pane that holds all the other UI elements
      */
     @FXML
-    private AnchorPane Pane;
+    private AnchorPane pane;
 
     /**
      * Button that allows the user to sign up and validate their credentials

@@ -269,127 +269,126 @@ public class ChessApp extends Application {
      * moves)
      */
     private MoveResult tryMove(Piece piece, int newx, int newy) {
+
         BoardLogic bl = new BoardLogic(board);
         int x0 = toBoard(piece.getOldX());
         int y0 = toBoard(piece.getOldY());
 
-        if ((turn == true && piece.getColour() == PieceColour.BLACK) || (turn == false && piece.getColour() == PieceColour.WHITE)) {
-            return new MoveResult(MoveType.NONE);
-        } else {
-            //Pawn movement
-            if (piece.getType() == PieceType.PAWN) {
-                if (bl.pawnMove(piece, newx, newy, x0, y0) == 1) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
+        if (null != piece.getType()) {
+            switch (piece.getType()) {
+                //Pawn movement
+                case PAWN:
+                    if (bl.pawnMove(piece, newx, newy, x0, y0) == 1) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        }
+
+                    } else if (bl.pawnMove(piece, newx, newy, x0, y0) == 2) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+
+                        }
                     }
+                    break;
+                //Rook movement
+                case ROOK:
+                    if (bl.rookMove(piece, newx, newy, x0, y0) == 1 && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
 
-                } else if (bl.pawnMove(piece, newx, newy, x0, y0) == 2) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
+                        }
+                    } else if (bl.rookMove(piece, newx, newy, x0, y0) == 2 && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
 
+                        }
                     }
-                }
-            }
+                    break;
+                //Knight movement
+                case KNIGHT:
+                    if (bl.knightMove(piece, newx, newy, x0, y0) == 1) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
 
-            //Rook Movement
-            if (piece.getType() == PieceType.ROOK) {
-                if (bl.rookMove(piece, newx, newy, x0, y0) == 1 && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
+                        }
+                    } else if (bl.knightMove(piece, newx, newy, x0, y0) == 2) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
 
+                        }
                     }
-                } else if (bl.rookMove(piece, newx, newy, x0, y0) == 2 && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
+                    break;
+                //Bishop movement
+                case BISHOP:
+                    if (bl.bishopMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
 
+                        }
+                    } else if (bl.bishopMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+
+                        }
                     }
-                }
-            }
+                    break;
+                //Queen movement
+                case QUEEN:
+                    if (bl.queenMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
 
-            //Knight Movement
-            if (piece.getType() == PieceType.KNIGHT) {
-                if (bl.knightMove(piece, newx, newy, x0, y0) == 1) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-
-                    }
-                } else if (bl.knightMove(piece, newx, newy, x0, y0) == 2) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-
-                    }
-                }
-            }
-
-            //Bishop Movement
-            if (piece.getType() == PieceType.BISHOP) {
-                if (bl.bishopMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-
-                    }
-                } else if (bl.bishopMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-
-                    }
-                }
-            }
-
-            //Queen Movement
-            if (piece.getType() == PieceType.QUEEN) {
-                if (bl.queenMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-
-                    }
-                } else if (bl.queenMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    }
-
-                }
-            }
-
-            //King Movement
-            if (piece.getType() == PieceType.KING) {
-                if (bl.kingMove(piece, newx, newy, x0, y0) == 1) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.NORMAL);
+                        }
+                    } else if (bl.queenMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        }
 
                     }
-                } else if (bl.kingMove(piece, newx, newy, x0, y0) == 2) {
-                    if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
-                    } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
-                        return new MoveResult(MoveType.KILL);
+                    break;
+                //King movement
+                case KING:
+                    if (bl.kingMove(piece, newx, newy, x0, y0) == 1) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.NORMAL);
 
+                        }
+                    } else if (bl.kingMove(piece, newx, newy, x0, y0) == 2) {
+                        if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+                        } else if (bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
+                            return new MoveResult(MoveType.KILL);
+
+                        }
                     }
-                }
+                    break;
+                default:
+                    break;
             }
         }
+
         return new MoveResult(MoveType.NONE);
     }
 
@@ -467,6 +466,7 @@ public class ChessApp extends Application {
                 RecursiveAI bot = new RecursiveAI(this, screen);
                 int newX = toBoard(piece.getLayoutX());
                 int newY = toBoard(piece.getLayoutY());
+
                 MoveResult result = tryMove(piece, newX, newY);
                 int x0 = toBoard(piece.getOldX());
                 int y0 = toBoard(piece.getOldY());
@@ -483,6 +483,7 @@ public class ChessApp extends Application {
                         board[x0][y0].setPiece(null);
                         board[newX][newY].setPiece(piece);
 
+                        //Promtes the piece to a queen if is a pawn and at the end of the board
                         if (newY == 0 && piece.getColour() == PieceColour.WHITE && piece.getType() == PieceType.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
@@ -504,6 +505,7 @@ public class ChessApp extends Application {
                         board[x0][y0].setPiece(null);
                         board[newX][newY].setPiece(piece);
 
+                        //Promtes the piece to a queen if is a pawn and at the end of the board
                         if (newY == 0 && piece.getColour() == colour.WHITE && piece.getType() == type.PAWN) {
                             board[newX][newY].setPiece(null);
                             Piece promtePiece = makePiece(PieceColour.WHITE, PieceType.QUEEN, newX, newY);
@@ -511,16 +513,15 @@ public class ChessApp extends Application {
                             pieceGroup.getChildren().add(promtePiece);
                         }
 
-                        turn = false;
                         bl.setTilesThreat(board);
                         legalGroup.getChildren().clear();
+                        turn = false;
                         break;
                 }
                 try {
                     if (screen != null) {
                         screen.checkCheckMate();
                     }
-
                 } catch (SQLException ex) {
                     Logger.getLogger(ChessApp.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -534,7 +535,6 @@ public class ChessApp extends Application {
                         if (screen != null) {
                             screen.checkCheckMate();
                         }
-
                     } catch (SQLException ex) {
                         Logger.getLogger(ChessApp.class.getName()).log(Level.SEVERE, null, ex);
                     }
@@ -659,11 +659,14 @@ public class ChessApp extends Application {
                     int y0 = toBoard(piece.getOldY());
                     switch (piece.getType()) {
                         case PAWN:
+                            //Two if statements used here
+                            //Statement one is used for normal scenarios
+                            //Statement two is used if the king is in check and the pawn could block it 
                             if (bl.checkBlackCheck() == false && bl.checkWhiteCheck() == false && bl.checkCheckBlock(piece, newx, newy, x0, y0, turn) == true) {
                                 if (bl.pawnMove(piece, newx, newy, x0, y0) == 1 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawEllipse(newx + 1.5, newy + 1.5);
                                     moves++;
-                                
+
                                 } else if (bl.pawnMove(piece, newx, newy, x0, y0) == 2 && bl.isBishopBlocked(piece, newx, newy, x0, y0) == false && bl.isRookBlocked(piece, newx, newy, x0, y0) == false) {
                                     drawKillEllipse(newx + 1.5, newy + 1.5);
                                     moves++;
@@ -836,6 +839,7 @@ public class ChessApp extends Application {
         String strDate = dateFormat.format(date);
         String saveBoard = name + "~" + strDate + "~" + currentUser.getUserName() + "~";
 
+        //Loops through the board and adds the pieces to a string to represent the bpard state
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
                 if (null == board[j][i].getPiece()) {
@@ -1029,8 +1033,10 @@ public class ChessApp extends Application {
 
     /**
      * Creates a board, tiles and pieces in static positions to be displayed
+     *
      * @param brd The configuration of the displayed board
-     * @return Returns a pane with the board, tiles and pieces for display purposes
+     * @return Returns a pane with the board, tiles and pieces for display
+     * purposes
      */
     public Pane display(String brd) {
 
@@ -1102,32 +1108,32 @@ public class ChessApp extends Application {
     }
 
     /**
-     * @param screen Receives the Match Screen Controller object linked to this ChessApp
+     * @param screen Receives the Match Screen Controller object linked to this
+     * ChessApp
      */
     public void setScreen(MatchScreenController screen) {
         this.screen = screen;
     }
 
     /**
-     * @return Returns the group that holds the piece icons so that other objects can remove/add to them
+     * @return Returns the group that holds the piece icons so that other
+     * objects can remove/add to them
      */
     public Group getPieceGroup() {
         return pieceGroup;
     }
 
     /**
-     * @param checkMate sets the checkmate parameter
-     * 1 for white wins
-     * 2 for black wins
+     * @param checkMate sets the checkmate parameter 1 for white wins 2 for
+     * black wins
      */
     public void setCheckMate(int checkMate) {
         this.checkMate = checkMate;
     }
 
     /**
-     * 
-     * @param turn toggles the turn boolean
-     * can be used from threads
+     *
+     * @param turn toggles the turn boolean can be used from threads
      */
     public void setTurn(boolean turn) {
         this.turn = turn;
@@ -1147,7 +1153,8 @@ public class ChessApp extends Application {
     }
 
     /**
-     * Loops through the white pieces on the board and sets them to be non-draggable
+     * Loops through the white pieces on the board and sets them to be
+     * non-draggable
      */
     public void disallowMoves() {
         for (int y = 0; y < 8; y++) {

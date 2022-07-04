@@ -157,6 +157,10 @@ public class User {
             err = "Username already in use";
             return false;
         }
+        if (userName.length()<1) {
+            err="Username cannot be blank";
+            return false;
+        }
         info = db.getList("email", "Users");
         if (info.contains(email)) {
             err = "Email already in use";
@@ -168,7 +172,7 @@ public class User {
         }
 
         if (password.equals(confirmPassword)) {
-            if (email.contains("@")) {
+            if (email.contains("@")&&email.contains(".")&&email.length()>5) {
                 db.addUser(userName, password, email,0,0);
                 return true;
             } else {

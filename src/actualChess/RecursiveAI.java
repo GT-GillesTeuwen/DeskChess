@@ -134,7 +134,7 @@ public class RecursiveAI extends Thread {
         MinimaxThread[] allThreads = new MinimaxThread[viableMoves.size()];
         for (int i = 0; i < viableMoves.size(); i++) {
             System.out.println("MiniMax " + i + "/" + viableMoves.size());
-            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, moveScores,1);
+            MinimaxThread temp = new MinimaxThread(viableMoves.get(i).getRetBrd(), i, moveScores,2);
             allThreads[i] = temp;
             allThreads[i].start();
             System.out.println("ID " + allThreads[i].getId() + " State " + allThreads[i].getState());
